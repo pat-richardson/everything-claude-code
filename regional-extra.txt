@@ -1,0 +1,2 @@
+# Extra regional paths that don't follow the -SUFFIX convention
+docs/tr
