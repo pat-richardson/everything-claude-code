@@ -124,7 +124,7 @@ read_config_paths() {
 	local config_file="$1"
 	local line
 
-	while IFS= read -r line; do
+	while IFS= read -r line || [[ -n "$line" ]]; do
 		[[ -z "$line" || "$line" == '#'* ]] && continue
 		if [[ ! -e "$line" ]]; then
 			log_verbose "Config path not found, skipping: $line"

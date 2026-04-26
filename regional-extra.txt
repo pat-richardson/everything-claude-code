@@ -1,2 +1,9 @@
 # Extra regional paths that don't follow the -SUFFIX convention
 docs/tr
+rules/zh
+.github
+.trae
+.code-buddy
+install.ps1
+SPONSORING.md
+SPONSORS.md
