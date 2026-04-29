@@ -1,0 +1,32 @@
+{
+  "eval_id": 1,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response uses content-appropriate stage names (not generic code stages)",
+      "passed": true,
+      "evidence": "Lines 21-48: Three content-specific stages: script-lab/ (research, brainstorm, write scripts), production/ (build video assets), distribution/ (publish, optimize, cross-promote)."
+    },
+    {
+      "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections",
+      "passed": true,
+      "evidence": "Lines 264-307: _config/voice.md with Tone (formality, audience, personality), Phrases (use/avoid lists), Grammar (oxford comma, contractions, abbreviations, sentence length), Visual Style (color palette, typography, callout format)."
+    },
+    {
+      "text": "Response uses structured stage contracts with Inputs/Process/Outputs format",
+      "passed": true,
+      "evidence": "Lines 136-171 (script-lab), 177-214 (production), 222-258 (distribution) — all with Inputs table (Source/File/Sections/Purpose columns), numbered Process steps, Outputs with descriptions, and Verify checklist."
+    },
+    {
+      "text": "Response explains how brand voice stays persistent across stages",
+      "passed": true,
+      "evidence": "Lines 14-16: 'they live in _config/ files that get loaded at the start of each stage.' Line 443: 'Claude loads _config/voice.md and _config/formats.md automatically — your brand voice is baked in.' Line 449: 'Your voice stays consistent because voice.md is the single source of truth.'"
+    },
+    {
+      "text": "Response explains how output from one stage feeds into the next",
+      "passed": true,
+      "evidence": "Lines 107-128: Root CONTEXT.md with execution flow table (Stage/Input Source/Output Destination/Review) and explicit handoff rules: 'Script must be locked' for script-lab → production, 'All assets must be rendered' for production → distribution."
+    }
+  ],
+  "pass_rate": 1.0
+}

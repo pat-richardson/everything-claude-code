@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response includes a visual directory tree structure showing the full workspace layout",
+      "passed": true,
+      "evidence": "Lines 20-43: Complete workspace tree with CLAUDE.md, CONTEXT.md, _config/ (conventions.md, workspace.md), and four stages (planning, src, docs, ops) each with CONTEXT.md, references/, output/."
+    },
+    {
+      "text": "Response includes a CLAUDE.md template with a routing table",
+      "passed": true,
+      "evidence": "Lines 124-166: Complete CLAUDE.md template. Lines 138-144: Routing table with Task/Go to/Read/Focus columns mapping four task types to four stages."
+    },
+    {
+      "text": "Response includes CONTEXT.md content for at least 2 individual stages",
+      "passed": true,
+      "evidence": "All four stages have full CONTEXT.md: planning (lines 204-248), src (lines 254-300), docs (lines 306-348), ops (lines 354-397). Each has Inputs table, Process steps, Outputs, and Verify checklist."
+    },
+    {
+      "text": "Response mentions token budgets or context window efficiency",
+      "passed": true,
+      "evidence": "Lines 50-58: Five-layer table with ~800/~300/~200-500 token budgets. Line 519: 'Each stage loads ~2,000-4,000 tokens.' Line 587: 'Context isolation: Claude sees only 2,000-4,000 tokens per stage, not everything.'"
+    },
+    {
+      "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories",
+      "passed": true,
+      "evidence": "Lines 399-475: _config/conventions.md (file structure, naming, API versioning, response format, testing, TypeScript, database, security). Lines 477-521: _config/workspace.md (scope, assumptions, glossary, review gates, token budget)."
+    },
+    {
+      "text": "Response distinguishes between stable reference material and per-run working artifacts",
+      "passed": true,
+      "evidence": "Line 59: 'factory vs. product: Your _config/ directory (Layer 3) contains your conventions — these never change. Your output/ directories (Layer 4) contain this run's work.' Line 565: explicit factory/product principle."
+    }
+  ],
+  "pass_rate": 1.0
+}

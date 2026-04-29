@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "eval_name": "broken-workspace",
+  "prompt": "My project folder is a mess. I have a huge CLAUDE.md that's like 3 pages long, my reference docs are mixed in with draft outputs, and Claude keeps losing track of what I told it two messages ago. How do I fix this?",
+  "assertions": [
+    {
+      "id": "diagnose-oversized-claude-md",
+      "text": "Response specifically identifies the oversized CLAUDE.md as a problem and recommends keeping it to roughly one screen / ~800 tokens",
+      "type": "contains_concept"
+    },
+    {
+      "id": "diagnose-mixed-layers",
+      "text": "Response identifies mixing reference docs with draft outputs as a distinct problem (not just general messiness)",
+      "type": "contains_concept"
+    },
+    {
+      "id": "explain-why-context-loss",
+      "text": "Response explains WHY these problems cause context loss — mentions context window, token limits, or lost-in-the-middle effect",
+      "type": "contains_concept"
+    },
+    {
+      "id": "concrete-restructure",
+      "text": "Response provides a concrete restructuring plan with specific directory structure and file placement (not just 'organize your files')",
+      "type": "contains_pattern"
+    },
+    {
+      "id": "factory-product-concept",
+      "text": "Response introduces the concept of separating stable references from working artifacts — factory/product, Layer 3/4, or equivalent framing",
+      "type": "contains_concept"
+    }
+  ]
+}

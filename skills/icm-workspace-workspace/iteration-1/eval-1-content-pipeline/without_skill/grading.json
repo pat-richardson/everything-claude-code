@@ -1,0 +1,33 @@
+{
+  "eval_id": 1,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response uses content-appropriate stage names (not generic code stages)",
+      "passed": true,
+      "evidence": "Lines 38-78: research/, script-lab/, production/, distribution/ — identical content-specific stages"
+    },
+    {
+      "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections",
+      "passed": true,
+      "evidence": "Line 42: _config/voice.md with brand tone, phrases, style. Agent summary confirms detailed voice guide."
+    },
+    {
+      "text": "Response uses structured stage contracts with Inputs/Process/Outputs format",
+      "passed": true,
+      "evidence": "Lines 196-219: research/CONTEXT.md with Inputs table (Source/File/Sections/Purpose columns), numbered Process steps. All four stages confirmed in agent summary."
+    },
+    {
+      "text": "Response explains how brand voice stays persistent across stages",
+      "passed": true,
+      "evidence": "Line 29: 'Layer 3 is the factory. Layer 4 is the product. Your voice guide goes in Layer 3 (immutable constraints).' Lines 121-122: 'Always load Layer 3 before creating output.'"
+    },
+    {
+      "text": "Response explains how output from one stage feeds into the next",
+      "passed": true,
+      "evidence": "Lines 146-151: Execution flow table with Input Source and Output Destination columns. Lines 155-176: Detailed stage transition rules."
+    }
+  ],
+  "pass_rate": 1.0,
+  "note": "NON-DISCRIMINATING: Baseline Sonnet already knows ICM methodology from training data. All assertions pass without the skill. The skill's value for content pipelines is in consistency enforcement, not knowledge provision."
+}

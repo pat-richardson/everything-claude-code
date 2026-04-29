@@ -1,0 +1,33 @@
+{
+  "eval_id": 1,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response uses content-appropriate stage names (not generic code stages)",
+      "passed": true,
+      "evidence": "Lines 18-55: brand/, research/, scripts/ (with brainstorming/, outlines/, drafts/, final/ substages), production/, planning/, reference/ — all content-appropriate names."
+    },
+    {
+      "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections",
+      "passed": true,
+      "evidence": "Lines 59-90: brand-voice-guide.md with Tone, Key Vocabulary, Audience Perspective, Signature Elements, What I Never Do sections."
+    },
+    {
+      "text": "Response uses structured stage contracts with Inputs/Process/Outputs format",
+      "passed": false,
+      "evidence": "No stage contracts. Lines 198-213 describe four independent session types ('Upload brand guide. Say: ...') — no Inputs tables, no numbered Process steps, no formal Outputs specifications."
+    },
+    {
+      "text": "Response explains how brand voice stays persistent across stages",
+      "passed": true,
+      "evidence": "Lines 198-199: 'Upload your brand-voice-guide.md at the start' for each session type. Line 264: 'The key is keeping your brand guide at the center.' Mechanism is manual upload rather than structural loading, but persistence is addressed."
+    },
+    {
+      "text": "Response explains how output from one stage feeds into the next",
+      "passed": false,
+      "evidence": "No pipeline flow described. Lines 198-213 show four independent session types (scripting, research, refinement, planning) without specifying how output from one feeds into the next as a sequential pipeline."
+    }
+  ],
+  "pass_rate": 0.6,
+  "note": "Iteration 2 baseline is now DISCRIMINATING (0.6 vs 1.0). The without-skill response knows content organization but lacks structured stage contracts and pipeline handoff — the two areas where ICM adds the most value."
+}
