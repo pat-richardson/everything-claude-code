@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response includes a visual directory tree structure showing the full workspace layout",
+      "passed": true,
+      "evidence": "Lines 7-61: Full project tree with docs/, src/ (types/, db/, routes/, middleware/, services/, config/), tests/, migrations/, and config files."
+    },
+    {
+      "text": "Response includes a CLAUDE.md template with a routing table",
+      "passed": false,
+      "evidence": "Lines 67-103: CLAUDE.md template has Quick Reference, Architecture Overview (directory list), Development Workflow (numbered steps), and When Switching Sessions (numbered list). No routing TABLE mapping tasks to directories."
+    },
+    {
+      "text": "Response includes CONTEXT.md content for at least 2 individual stages",
+      "passed": false,
+      "evidence": "No CONTEXT.md files created. Response uses docs/ARCHITECTURE.md, docs/API-SPEC.md, docs/DECISIONS.md but no stage-level context files with Inputs/Process/Outputs contracts."
+    },
+    {
+      "text": "Response mentions token budgets or context window efficiency",
+      "passed": false,
+      "evidence": "Response discusses 'context persistence' and being 'Claude-friendly' but never mentions tokens, token budgets, context window size, or efficiency metrics."
+    },
+    {
+      "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories",
+      "passed": false,
+      "evidence": "No _config/ or references/ directories. Uses docs/ for documentation but these are project docs mixed with the codebase, not separated stable-reference material."
+    },
+    {
+      "text": "Response distinguishes between stable reference material and per-run working artifacts",
+      "passed": false,
+      "evidence": "No factory/product or stable/ephemeral distinction. All files treated as part of the same project structure without distinguishing reference material from working artifacts."
+    }
+  ],
+  "pass_rate": 0.167
+}

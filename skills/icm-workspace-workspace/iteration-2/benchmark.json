@@ -1,0 +1,105 @@
+{
+  "skill_name": "icm-workspace",
+  "iteration": 2,
+  "configurations": [
+    {
+      "name": "with_skill",
+      "evals": [
+        {
+          "eval_name": "developer-project",
+          "pass_rate": 1.0,
+          "passed": 6,
+          "total": 6,
+          "tokens": 46940,
+          "duration_seconds": 65.2
+        },
+        {
+          "eval_name": "content-pipeline",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 46453,
+          "duration_seconds": 67.3
+        },
+        {
+          "eval_name": "broken-workspace",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 44208,
+          "duration_seconds": 43.0
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 1.0,
+        "stddev_pass_rate": 0.0,
+        "mean_tokens": 45867,
+        "stddev_tokens": 1168,
+        "mean_duration_seconds": 58.5,
+        "stddev_duration_seconds": 11.1
+      }
+    },
+    {
+      "name": "without_skill",
+      "evals": [
+        {
+          "eval_name": "developer-project",
+          "pass_rate": 0.167,
+          "passed": 1,
+          "total": 6,
+          "tokens": 35429,
+          "duration_seconds": 23.2
+        },
+        {
+          "eval_name": "content-pipeline",
+          "pass_rate": 0.6,
+          "passed": 3,
+          "total": 5,
+          "tokens": 36152,
+          "duration_seconds": 37.7
+        },
+        {
+          "eval_name": "broken-workspace",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 36543,
+          "duration_seconds": 43.6
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.589,
+        "stddev_pass_rate": 0.341,
+        "mean_tokens": 36041,
+        "stddev_tokens": 463,
+        "mean_duration_seconds": 34.8,
+        "stddev_duration_seconds": 8.5
+      }
+    }
+  ],
+  "delta": {
+    "pass_rate": "+0.411 (with_skill: 1.000, without_skill: 0.589)",
+    "tokens": "+9826 (with_skill uses more tokens on average)",
+    "duration_seconds": "+23.7s (with_skill is slower on average)"
+  },
+  "comparison_to_iteration_1": {
+    "with_skill_pass_rate": "1.000 → 1.000 (unchanged)",
+    "without_skill_pass_rate": "0.522 → 0.589 (baseline improved slightly)",
+    "delta_pass_rate": "+0.478 → +0.411 (delta narrowed by 0.067)",
+    "eval_1_content_pipeline": "non-discriminating (1.0/1.0) → discriminating (1.0/0.6)",
+    "eval_2_broken_workspace": "discriminating (1.0/0.4) → non-discriminating (1.0/1.0)"
+  },
+  "analysis": {
+    "discriminating_evals": ["developer-project", "content-pipeline"],
+    "non_discriminating_evals": ["broken-workspace"],
+    "key_findings": [
+      "Eval 0 (developer-project) remains strongly discriminating: 6/6 vs 1/6 — baseline produces standard project structure without routing tables, CONTEXT.md files, token budgets, or layer separation",
+      "Eval 1 (content-pipeline) is NOW DISCRIMINATING: 5/5 vs 3/5 — baseline lacks stage contracts (Inputs/Process/Outputs) and pipeline handoff specifications. The stochastic baseline no longer benefits from ICM training data leakage seen in iteration 1",
+      "Eval 2 (broken-workspace) is NOW NON-DISCRIMINATING: 5/5 vs 5/5 — baseline Sonnet produced a strong diagnostic response using its own organizational framework (three-layer split, lifecycle separation). Assertions test concept presence, not ICM-specific terminology",
+      "With-skill pass rate is 100% across all evals (unchanged from iteration 1)",
+      "Token usage: with-skill runs now use MORE tokens on average (45.9K vs 36.0K) — this reverses the iteration 1 finding. Likely driven by richer skill content producing longer responses",
+      "The 6 fixes (one-fact-one-location, sessions-start-clean, smallest-version, content pipeline 3-stage, AI-not-work anti-pattern, context-files-living-docs) are reflected in with-skill outputs but their impact on the specific eval assertions is limited since evals test structural patterns, not these specific principles",
+      "Eval 2 needs assertions that test ICM-specific depth (factory/product terminology, Layer 3/4 model, token budgets) rather than concept presence to remain discriminating"
+    ]
+  }
+}

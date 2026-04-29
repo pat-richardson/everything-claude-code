@@ -1,0 +1,32 @@
+{
+  "eval_id": 1,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response uses content-appropriate stage names (not generic code stages)",
+      "passed": true,
+      "evidence": "Lines 60-83: research/, script-lab/, production/, distribution/ — all content-specific stages"
+    },
+    {
+      "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections",
+      "passed": true,
+      "evidence": "Lines 346-401: Detailed _config/voice.md with Tone, Phrases (use/avoid), Grammar, Opening Hook Structure, Explanation Style, Visual Language Notes"
+    },
+    {
+      "text": "Response uses structured stage contracts with Inputs/Process/Outputs format",
+      "passed": true,
+      "evidence": "Lines 178-337: All four stage CONTEXT.md files with Inputs table (Source/File/Sections/Purpose), numbered Process steps, Outputs with file names and token ranges, Verify checklists"
+    },
+    {
+      "text": "Response explains how brand voice stays persistent across stages",
+      "passed": true,
+      "evidence": "Lines 563-576: 'After ICM' section explicitly shows voice.md loaded as Input at every stage. 'Your voice is never forgotten. It is not buried in a large context. It is an explicit input at every stage.'"
+    },
+    {
+      "text": "Response explains how output from one stage feeds into the next",
+      "passed": true,
+      "evidence": "Lines 146-166: Root CONTEXT.md with pipeline flow table and handoff rules. Line 157: 'Output of stage N becomes input of stage N+1'"
+    }
+  ],
+  "pass_rate": 1.0
+}

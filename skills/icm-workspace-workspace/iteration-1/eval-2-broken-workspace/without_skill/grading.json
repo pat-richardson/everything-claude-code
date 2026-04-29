@@ -1,0 +1,33 @@
+{
+  "eval_id": 2,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response identifies the oversized CLAUDE.md as a problem and recommends a size limit",
+      "passed": false,
+      "evidence": "Lines 9-20: Identifies that CLAUDE.md 'reads like a generic template' but says it is 'actually well-scoped' at 73 lines. Does NOT identify size/length as the problem. Recommends 'Stay under 100 lines' but frames the issue as content mismatch, not oversizing."
+    },
+    {
+      "text": "Response identifies mixing reference docs with draft outputs as a distinct problem",
+      "passed": false,
+      "evidence": "Lines 22-33: Identifies docs 'scattered across three locations' but frames it as a SCATTERING problem, not a MIXING problem. Does not specifically diagnose reference material contaminated by working artifacts."
+    },
+    {
+      "text": "Response explains WHY these problems cause context loss",
+      "passed": true,
+      "evidence": "Lines 37-41: 'Without a clear index...Claude has no structured way to re-locate information between sessions. It finds documents in session 1, then in session 2 starts from scratch.' Also lines 43-44 on session persistence."
+    },
+    {
+      "text": "Response provides a concrete restructuring plan with specific directory structure",
+      "passed": true,
+      "evidence": "Lines 50-100: Provides a rewritten CLAUDE.md with project structure map, session persistence section, and clear categories (Core Development, Reference & Configuration, Documentation)."
+    },
+    {
+      "text": "Response introduces the concept of separating stable references from working artifacts",
+      "passed": false,
+      "evidence": "Uses 'Core Development' vs 'Reference & Configuration' categories but does NOT introduce factory/product distinction, Layer 3/4 separation, or the concept of immutable constraints vs mutable artifacts."
+    }
+  ],
+  "pass_rate": 0.4,
+  "note": "Baseline agent read the ACTUAL repo files instead of responding to the hypothetical scenario. Diagnosed real problems (missing session persistence callout, WORKING-CONTEXT.md not referenced) but missed the ICM-specific anti-patterns described in the prompt."
+}
