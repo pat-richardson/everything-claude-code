@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "content-pipeline",
+  "prompt": "I make YouTube videos about AI tools. I need help organizing my research notes, scripts, and production files so Claude can help me at each stage without forgetting my brand voice guidelines",
+  "assertions": [
+    {"id": "content-stages", "text": "Response uses content-appropriate stage names (not generic code stages)"},
+    {"id": "voice-file", "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections"},
+    {"id": "stage-contracts", "text": "Response uses structured stage contracts with Inputs/Process/Outputs format"},
+    {"id": "brand-voice-persistence", "text": "Response explains how brand voice stays persistent across stages"},
+    {"id": "stage-handoff", "text": "Response explains how output from one stage feeds into the next"}
+  ]
+}

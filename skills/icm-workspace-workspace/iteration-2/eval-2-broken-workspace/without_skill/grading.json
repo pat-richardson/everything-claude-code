@@ -1,0 +1,33 @@
+{
+  "eval_id": 2,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response identifies the oversized CLAUDE.md as a problem and recommends a size limit",
+      "passed": true,
+      "evidence": "Lines 8-30: 'Your CLAUDE.md has merged two separate concerns' with diagnostic checklist. Line 39: 'CLAUDE.md (60-100 lines ONLY)' with template."
+    },
+    {
+      "text": "Response identifies mixing reference docs with draft outputs as a distinct problem",
+      "passed": true,
+      "evidence": "Lines 96-148: Dedicated 'Problem 2: Mixed Drafts & Reference Docs' section. Lines 99-102: 'Your file system doesn't distinguish between: Authoritative docs, Working notes, Artifacts.'"
+    },
+    {
+      "text": "Response explains WHY these problems cause context loss",
+      "passed": true,
+      "evidence": "Lines 10-12: 'Forces Claude to: 1. Re-read 3 pages every session start, 2. Hold all of it in context even when only 2-3 lines are relevant, 3. Lose track of specifics because they're buried in reference noise.' Line 104: 'Claude doesn't know what's safe to reference vs. what to ignore.'"
+    },
+    {
+      "text": "Response provides a concrete restructuring plan with specific directory structure",
+      "passed": true,
+      "evidence": "Lines 36-57: Three-layer split (CLAUDE.md, docs/, .claude/rules/). Lines 118-147: Lifecycle-based separation (docs/, .claude/, .workspace/). Lines 350-410: Copy-paste bash setup script."
+    },
+    {
+      "text": "Response introduces the concept of separating stable references from working artifacts",
+      "passed": true,
+      "evidence": "Lines 99-102: Three-type distinction (authoritative/stable, working/ephemeral, generated/artifacts). Line 149: 'All docs in docs/ are permanent; everything in .workspace/ is temporary.' Introduces the concept with different terminology than ICM but the separation principle is clear."
+    }
+  ],
+  "pass_rate": 1.0,
+  "note": "Iteration 2 baseline is NON-DISCRIMINATING (both 1.0). The without-skill Sonnet produced a strong diagnostic response using its own organizational framework (three-layer split, lifecycle separation, session anchors). Assertions test whether the concept is present, not whether ICM-specific terminology is used — and the baseline introduces equivalent concepts independently."
+}

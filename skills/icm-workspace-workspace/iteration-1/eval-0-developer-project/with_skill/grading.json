@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response includes a visual directory tree structure showing the full workspace layout",
+      "passed": true,
+      "evidence": "Lines 15-41: Complete tree with CLAUDE.md, CONTEXT.md, _config/, planning/, src/, ops/ and their subdirectories including references/ and output/"
+    },
+    {
+      "text": "Response includes a CLAUDE.md template with a routing table",
+      "passed": true,
+      "evidence": "Lines 50-91: Full CLAUDE.md with routing table using Task | Go to | Read | Skills columns, plus naming conventions and rules"
+    },
+    {
+      "text": "Response includes CONTEXT.md content for at least 2 individual stages",
+      "passed": true,
+      "evidence": "Lines 125-241: Three complete stage CONTEXT.md files (planning, src, ops) each with Inputs table, Process steps, Outputs, and Verify sections"
+    },
+    {
+      "text": "Response mentions token budgets or context window efficiency",
+      "passed": true,
+      "evidence": "Lines 459-467: Explicit token counts per stage — planning ~1,200, src ~2,500, ops ~1,800 — compared to 5,000+ for monolithic approach"
+    },
+    {
+      "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories",
+      "passed": true,
+      "evidence": "Lines 244-391: Two _config/ files (conventions.md with TypeScript rules, workspace.md with scope/glossary) marked as Layer 3 factory material"
+    },
+    {
+      "text": "Response distinguishes between stable reference material and per-run working artifacts",
+      "passed": true,
+      "evidence": "Line 84: 'For repeated fixes to output, edit the source (_config/) instead.' Anti-patterns section lines 469-477 reinforces separation."
+    }
+  ],
+  "pass_rate": 1.0
+}

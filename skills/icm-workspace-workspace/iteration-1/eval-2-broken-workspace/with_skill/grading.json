@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response identifies the oversized CLAUDE.md as a problem and recommends a size limit",
+      "passed": true,
+      "evidence": "Lines 12-19: 'When CLAUDE.md exceeds one screen (roughly 800 tokens), it stops being a routing table and becomes a manual.' Three specific consequences listed."
+    },
+    {
+      "text": "Response identifies mixing reference docs with draft outputs as a distinct problem",
+      "passed": true,
+      "evidence": "Lines 21-35: Explicit anti-pattern with example tree showing 'output - WRONG LOCATION' labels. 'Claude cannot reliably distinguish: this is how I should always write (factory) from this is what I produced last run (product)'"
+    },
+    {
+      "text": "Response explains WHY these problems cause context loss",
+      "passed": true,
+      "evidence": "Lines 14-19: Token bloat, context loss after message 2-3, instructions competing with artifacts. Line 35: 'model has internalized the wrong set of constraints from prior outputs.'"
+    },
+    {
+      "text": "Response provides a concrete restructuring plan with specific directory structure",
+      "passed": true,
+      "evidence": "Lines 66-99: Before/after directory trees. Eight-phase implementation plan with specific file placement for each layer."
+    },
+    {
+      "text": "Response introduces the concept of separating stable references from working artifacts",
+      "passed": true,
+      "evidence": "Lines 52-63: Full Layer 3 vs Layer 4 table with 'the factory' and 'the product' labels. Token budget per layer. 'By separating them completely, Claude no longer has to guess which files are canonical.'"
+    }
+  ],
+  "pass_rate": 1.0
+}

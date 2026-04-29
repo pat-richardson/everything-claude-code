@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "run_type": "without_skill",
+  "expectations": [
+    {
+      "text": "Response includes a visual directory tree structure showing the full workspace layout",
+      "passed": true,
+      "evidence": "Lines 7-85: Detailed tree with src/, tests/, docs/ and subdirectories. Standard project structure, not ICM workspace."
+    },
+    {
+      "text": "Response includes a CLAUDE.md template with a routing table",
+      "passed": false,
+      "evidence": "Lines 92-137: Has CLAUDE.md but it is a flat architecture overview with commands list, NOT a routing table with Go to / Read / Skills columns. No task routing."
+    },
+    {
+      "text": "Response includes CONTEXT.md content for at least 2 individual stages",
+      "passed": false,
+      "evidence": "No CONTEXT.md files at all. Uses .claude/rules/ and .claude/settings.json instead. No staged workspace concept."
+    },
+    {
+      "text": "Response mentions token budgets or context window efficiency",
+      "passed": false,
+      "evidence": "No mention of tokens, context window, or budgets. Section 'How This Helps Claude Maintain Context' (lines 243-268) discusses cognitive load but not token scoping."
+    },
+    {
+      "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories",
+      "passed": false,
+      "evidence": "Has .claude/rules/typescript-api.md for conventions, but no dedicated _config/ or references/ layer separated from working directories."
+    },
+    {
+      "text": "Response distinguishes between stable reference material and per-run working artifacts",
+      "passed": false,
+      "evidence": "No factory/product or reference/artifact distinction. All files treated equally in standard project layout."
+    }
+  ],
+  "pass_rate": 0.167
+}

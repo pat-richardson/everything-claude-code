@@ -1,0 +1,97 @@
+{
+  "skill_name": "icm-workspace",
+  "iteration": 1,
+  "configurations": [
+    {
+      "name": "with_skill",
+      "evals": [
+        {
+          "eval_name": "developer-project",
+          "pass_rate": 1.0,
+          "passed": 6,
+          "total": 6,
+          "tokens": 45046,
+          "duration_seconds": 51.2
+        },
+        {
+          "eval_name": "content-pipeline",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 50663,
+          "duration_seconds": 99.5
+        },
+        {
+          "eval_name": "broken-workspace",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 46523,
+          "duration_seconds": 77.0
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 1.0,
+        "stddev_pass_rate": 0.0,
+        "mean_tokens": 47411,
+        "stddev_tokens": 2351,
+        "mean_duration_seconds": 75.9,
+        "stddev_duration_seconds": 19.8
+      }
+    },
+    {
+      "name": "without_skill",
+      "evals": [
+        {
+          "eval_name": "developer-project",
+          "pass_rate": 0.167,
+          "passed": 1,
+          "total": 6,
+          "tokens": 38067,
+          "duration_seconds": 47.7
+        },
+        {
+          "eval_name": "content-pipeline",
+          "pass_rate": 1.0,
+          "passed": 5,
+          "total": 5,
+          "tokens": 52947,
+          "duration_seconds": 116.6
+        },
+        {
+          "eval_name": "broken-workspace",
+          "pass_rate": 0.4,
+          "passed": 2,
+          "total": 5,
+          "tokens": 62211,
+          "duration_seconds": 79.2
+        }
+      ],
+      "aggregate": {
+        "mean_pass_rate": 0.522,
+        "stddev_pass_rate": 0.347,
+        "mean_tokens": 51075,
+        "stddev_tokens": 9917,
+        "mean_duration_seconds": 81.2,
+        "stddev_duration_seconds": 28.3
+      }
+    }
+  ],
+  "delta": {
+    "pass_rate": "+0.478 (with_skill: 1.000, without_skill: 0.522)",
+    "tokens": "-3664 (with_skill uses fewer tokens on average)",
+    "duration_seconds": "-5.3s (with_skill is faster on average)"
+  },
+  "analysis": {
+    "discriminating_evals": ["developer-project", "broken-workspace"],
+    "non_discriminating_evals": ["content-pipeline"],
+    "key_findings": [
+      "Eval 0 (developer-project) shows strongest skill value: 6/6 vs 1/6 — baseline produces standard project structure without routing tables, CONTEXT.md files, or token budgets",
+      "Eval 1 (content-pipeline) is non-discriminating: 5/5 vs 5/5 — Sonnet already knows ICM methodology from training data and produces identical structural patterns without the skill",
+      "Eval 2 (broken-workspace) shows moderate skill value: 5/5 vs 2/5 — skill provides systematic anti-pattern diagnosis with factory/product framing; baseline diagnoses real repo issues but misses ICM-specific patterns",
+      "Eval 2 baseline diverged: agent read the actual repo files instead of responding to the hypothetical scenario, reducing comparability",
+      "Token usage: with-skill runs used FEWER tokens on average (47.4K vs 51.1K) despite richer structured output — the skill focuses the model's work",
+      "Content pipeline eval needs stronger assertions to differentiate skill value — current assertions test knowledge presence, not consistency quality"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "eval_id": 2,
+  "run_type": "with_skill",
+  "expectations": [
+    {
+      "text": "Response identifies the oversized CLAUDE.md as a problem and recommends a size limit",
+      "passed": true,
+      "evidence": "Lines 10-14: 'Your 3-page CLAUDE.md is trying to describe everything at once...That's 2,000+ tokens of conflicting context in a single file. Claude's attention scatters.' Line 14: 'CLAUDE.md should be a one-screen routing table, not a manual.' Line 79: 'under 800 tokens.'"
+    },
+    {
+      "text": "Response identifies mixing reference docs with draft outputs as a distinct problem",
+      "passed": true,
+      "evidence": "Lines 16-19: 'You have research notes living next to output from the last session in the same references/ folder. Claude can't tell which files are stable guides (the factory) and which are yesterday's working artifacts (the product).'"
+    },
+    {
+      "text": "Response explains WHY these problems cause context loss",
+      "passed": true,
+      "evidence": "Line 11: 'Claude's attention scatters.' Line 17: 'It loads both as constraints.' Lines 21-23: 'all the context lives in conversational history. When you start a new conversation, none of it exists anymore.' Line 38: 'Each piece of information lives in exactly one file.'"
+    },
+    {
+      "text": "Response provides a concrete restructuring plan with specific directory structure",
+      "passed": true,
+      "evidence": "Lines 56-73: Multi-workspace directory structure. Lines 89-120: CLAUDE.md template. Lines 125-157: Stage CONTEXT.md template. Lines 163-176: Layer 3/4 separation. Lines 180-207: Three-stage patterns for code, content, and research."
+    },
+    {
+      "text": "Response introduces the concept of separating stable references from working artifacts",
+      "passed": true,
+      "evidence": "Lines 163-176: Explicit factory/product section. '_config/ (Layer 3 — The Factory, never changes per-run)' vs 'output/ (Layer 4 — The Product, changes every run).' Line 176: 'If a file doesn't change between runs, it's Layer 3. If it's specific to this session's work, it's Layer 4.'"
+    }
+  ],
+  "pass_rate": 1.0
+}
