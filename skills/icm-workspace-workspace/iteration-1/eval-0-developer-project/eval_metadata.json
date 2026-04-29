@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "eval_name": "developer-project",
+  "prompt": "I'm starting a new TypeScript API project with Express and Postgres. I want to set up my folder structure so Claude doesn't lose context when I switch between planning and writing code. Can you help me organize this?",
+  "assertions": [
+    {
+      "id": "dir-tree",
+      "text": "Response includes a visual directory tree structure showing the full workspace layout",
+      "type": "contains_pattern"
+    },
+    {
+      "id": "claude-md-routing",
+      "text": "Response includes a CLAUDE.md template with a routing table (Task | Go to | Read columns or equivalent)",
+      "type": "contains_pattern"
+    },
+    {
+      "id": "stage-context-files",
+      "text": "Response includes CONTEXT.md content for at least 2 individual stages (e.g. planning, src)",
+      "type": "contains_pattern"
+    },
+    {
+      "id": "token-budgets",
+      "text": "Response mentions token budgets, context efficiency, or context window scoping as a reason for the structure",
+      "type": "contains_concept"
+    },
+    {
+      "id": "layer3-files",
+      "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories",
+      "type": "contains_pattern"
+    },
+    {
+      "id": "factory-product-separation",
+      "text": "Response distinguishes between stable reference material and per-run working artifacts (factory vs product or equivalent concept)",
+      "type": "contains_concept"
+    }
+  ]
+}
