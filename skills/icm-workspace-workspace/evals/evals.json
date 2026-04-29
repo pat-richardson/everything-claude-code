@@ -1,0 +1,45 @@
+{
+  "skill_name": "icm-workspace",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "I'm starting a new TypeScript API project with Express and Postgres. I want to set up my folder structure so Claude doesn't lose context when I switch between planning and writing code. Can you help me organize this?",
+      "expected_output": "A complete ICM workspace structure with CLAUDE.md, CONTEXT.md files, _config/, and stage directories for a code project archetype",
+      "files": [],
+      "assertions": [
+        {"id": "dir-tree", "text": "Response includes a visual directory tree structure showing the full workspace layout"},
+        {"id": "claude-md-routing", "text": "Response includes a CLAUDE.md template with a routing table"},
+        {"id": "stage-context-files", "text": "Response includes CONTEXT.md content for at least 2 individual stages"},
+        {"id": "token-budgets", "text": "Response mentions token budgets or context window efficiency"},
+        {"id": "layer3-files", "text": "Response includes Layer 3 reference files (_config/ or references/) separate from working directories"},
+        {"id": "factory-product-separation", "text": "Response distinguishes between stable reference material and per-run working artifacts"}
+      ]
+    },
+    {
+      "id": 1,
+      "prompt": "I make YouTube videos about AI tools. I need help organizing my research notes, scripts, and production files so Claude can help me at each stage without forgetting my brand voice guidelines",
+      "expected_output": "A content pipeline workspace with research/, script-lab/, production/, distribution/ stages, voice.md in _config/, and stage contracts with Inputs/Process/Outputs",
+      "files": [],
+      "assertions": [
+        {"id": "content-stages", "text": "Response uses content-appropriate stage names (not generic code stages)"},
+        {"id": "voice-file", "text": "Response includes a dedicated voice or brand guidelines file with tone and audience sections"},
+        {"id": "stage-contracts", "text": "Response uses structured stage contracts with Inputs/Process/Outputs format"},
+        {"id": "brand-voice-persistence", "text": "Response explains how brand voice stays persistent across stages"},
+        {"id": "stage-handoff", "text": "Response explains how output from one stage feeds into the next"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "My project folder is a mess. I have a huge CLAUDE.md that's like 3 pages long, my reference docs are mixed in with draft outputs, and Claude keeps losing track of what I told it two messages ago. How do I fix this?",
+      "expected_output": "Diagnosis of anti-patterns (oversized CLAUDE.md, mixed Layer 3/4), restructuring plan with five-layer hierarchy, and concrete steps to separate factory from product",
+      "files": [],
+      "assertions": [
+        {"id": "diagnose-oversized-claude-md", "text": "Response identifies the oversized CLAUDE.md as a problem and recommends a size limit"},
+        {"id": "diagnose-mixed-layers", "text": "Response identifies mixing reference docs with draft outputs as a distinct problem"},
+        {"id": "explain-why-context-loss", "text": "Response explains WHY these problems cause context loss"},
+        {"id": "concrete-restructure", "text": "Response provides a concrete restructuring plan with specific directory structure"},
+        {"id": "factory-product-concept", "text": "Response introduces the concept of separating stable references from working artifacts"}
+      ]
+    }
+  ]
+}
