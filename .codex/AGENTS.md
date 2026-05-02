@@ -75,10 +75,23 @@ Codex now supports multi-agent workflows behind the experimental `features.multi
 - Point each role at a TOML layer under `.codex/agents/`
 - Use `/agent` inside Codex CLI to inspect and steer child agents
 
-Sample role configs in this repo:
+ECC supports a repo-native conversion lane from `agents/*.md` to `.codex/agents/*.toml`.
+
+- Generated role files are produced by `scripts/codex/convert-agents-to-toml.js`
+- `scripts/sync-ecc-to-codex.sh` regenerates those role files before copying them into `~/.codex/agents`
+- Generated files always include Codex-required `name`, `description`, and `developer_instructions`
+- Generated files may also include `nickname_candidates`, `model`, `model_reasoning_effort`, `sandbox_mode`, `mcp_servers`, and `skills.config` when ECC can derive them safely
+- Markdown references to Codex-loadable skills under `.agents/skills/` are carried into generated `[[skills.config]]` entries
+- Declared MCP tool usage can pull matching server definitions into agent-local `mcp_servers` blocks
+- Harness-specific metadata that does not cleanly map to Codex is warned and dropped
+- Existing `[agents.<name>]` descriptions and `config_file` entries are preserved when already present
+
+Manual sample role configs still ship alongside the generated set:
 - `.codex/agents/explorer.toml` — read-only evidence gathering
 - `.codex/agents/reviewer.toml` — correctness/security review
 - `.codex/agents/docs-researcher.toml` — API and release-note verification
+
+`docs/CODEX-AGENT-CONVERSION.md` documents the exact markdown-to-TOML mapping, lossy fields, and review expectations.
 
 ## Key Differences from Claude Code
 

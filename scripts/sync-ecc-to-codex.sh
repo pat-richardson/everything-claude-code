@@ -29,9 +29,11 @@ AGENTS_ROOT_SRC="$REPO_ROOT/AGENTS.md"
 AGENTS_CODEX_SUPP_SRC="$REPO_ROOT/.codex/AGENTS.md"
 CODEX_AGENTS_SRC="$REPO_ROOT/.codex/agents"
 CODEX_AGENTS_DEST="$CODEX_HOME/agents"
+AGENTS_MD_SRC="$REPO_ROOT/agents"
 PROMPTS_SRC="$REPO_ROOT/commands"
 PROMPTS_DEST="$CODEX_HOME/prompts"
 BASELINE_MERGE_SCRIPT="$REPO_ROOT/scripts/codex/merge-codex-config.js"
+CODEX_AGENT_CONVERTER="$REPO_ROOT/scripts/codex/convert-agents-to-toml.js"
 HOOKS_INSTALLER="$REPO_ROOT/scripts/codex/install-global-git-hooks.sh"
 SANITY_CHECKER="$REPO_ROOT/scripts/codex/check-codex-global-state.sh"
 CURSOR_RULES_DIR="$REPO_ROOT/.cursor/rules"
@@ -149,9 +151,11 @@ MCP_MERGE_SCRIPT="$REPO_ROOT/scripts/codex/merge-mcp-config.js"
 
 require_path "$REPO_ROOT/AGENTS.md" "ECC AGENTS.md"
 require_path "$AGENTS_CODEX_SUPP_SRC" "ECC Codex AGENTS supplement"
+require_path "$AGENTS_MD_SRC" "ECC markdown agents directory"
 require_path "$CODEX_AGENTS_SRC" "ECC Codex agent roles"
 require_path "$PROMPTS_SRC" "ECC commands directory"
 require_path "$BASELINE_MERGE_SCRIPT" "ECC Codex baseline merge script"
+require_path "$CODEX_AGENT_CONVERTER" "ECC Codex markdown agent converter"
 require_path "$HOOKS_INSTALLER" "ECC global git hooks installer"
 require_path "$SANITY_CHECKER" "ECC global sanity checker"
 require_path "$CURSOR_RULES_DIR" "ECC Cursor rules directory"
@@ -166,6 +170,22 @@ fi
 log "Mode: $MODE"
 log "Repo root: $REPO_ROOT"
 log "Codex home: $CODEX_HOME"
+
+log "Regenerating repo-local Codex role TOML from markdown agents"
+if [[ "$MODE" == "dry-run" ]]; then
+  node "$CODEX_AGENT_CONVERTER" \
+    --source "$AGENTS_MD_SRC" \
+    --dest "$CODEX_AGENTS_SRC" \
+    --config "$REPO_ROOT/.codex/config.toml" \
+    --wire-config \
+    --dry-run
+else
+  node "$CODEX_AGENT_CONVERTER" \
+    --source "$AGENTS_MD_SRC" \
+    --dest "$CODEX_AGENTS_SRC" \
+    --config "$REPO_ROOT/.codex/config.toml" \
+    --wire-config
+fi
 
 log "Creating backup folder: $BACKUP_DIR"
 run_or_echo mkdir -p "$BACKUP_DIR"
