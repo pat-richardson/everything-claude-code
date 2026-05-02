@@ -68,6 +68,7 @@
     "scripts/consult.js",
     "scripts/auto-update.js",
     "scripts/claw.js",
+    "scripts/codex/convert-agents-to-toml.js",
     "scripts/codex/merge-codex-config.js",
     "scripts/codex/merge-mcp-config.js",
     "scripts/discussion-audit.js",
@@ -96,7 +97,11 @@
     "scripts/status.js",
     "scripts/work-items.js",
     "scripts/uninstall.js",
+<<<<<<< HEAD
     "skills/agent-architecture-audit/",
+=======
+    "docs/CODEX-AGENT-CONVERSION.md",
+>>>>>>> a5437154 (convert agents to codex form)
     "skills/agent-harness-construction/",
     "skills/agent-introspection-debugging/",
     "skills/agent-sort/",
