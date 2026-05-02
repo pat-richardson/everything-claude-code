@@ -103,7 +103,8 @@ web_search = "live"
 
 [agents]
 # Multi-agent role limits and local role definitions.
-# These map to `.codex/agents/*.toml` and mirror the repo's explorer/reviewer/docs workflow.
+# Generated Codex adapter roles are sourced from `agents/*.md`.
+# Existing sample roles may still be hand-maintained alongside generated files.
 max_threads = 6
 max_depth = 1
 
@@ -118,3 +119,195 @@ config_file = "agents/reviewer.toml"
 [agents.docs_researcher]
 description = "Documentation specialist that verifies APIs, framework behavior, and release notes."
 config_file = "agents/docs-researcher.toml"
+
+[agents.a11y_architect]
+description = "Accessibility Architect specializing in WCAG 2.2 compliance for Web and Native platforms. Use PROACTIVELY when designing UI components, establishing design systems, or auditing code for inclusive user experiences."
+config_file = "agents/a11y-architect.toml"
+
+[agents.architect]
+description = "Software architecture specialist for system design, scalability, and technical decision-making. Use PROACTIVELY when planning new features, refactoring large systems, or making architectural decisions."
+config_file = "agents/architect.toml"
+
+[agents.build_error_resolver]
+description = "Build and TypeScript error resolution specialist. Use PROACTIVELY when build fails or type errors occur. Fixes build/type errors only with minimal diffs, no architectural edits. Focuses on getting the build green quickly."
+config_file = "agents/build-error-resolver.toml"
+
+[agents.chief_of_staff]
+description = "Personal communication chief of staff that triages email, Slack, LINE, and Messenger. Classifies messages into 4 tiers (skip/info_only/meeting_info/action_required), generates draft replies, and enforces post-send follow-through via hooks. Use when managing multi-channel communication workflows."
+config_file = "agents/chief-of-staff.toml"
+
+[agents.code_architect]
+description = "Designs feature architectures by analyzing existing codebase patterns and conventions, then providing implementation blueprints with concrete files, interfaces, data flow, and build order."
+config_file = "agents/code-architect.toml"
+
+[agents.code_explorer]
+description = "Deeply analyzes existing codebase features by tracing execution paths, mapping architecture layers, and documenting dependencies to inform new development."
+config_file = "agents/code-explorer.toml"
+
+[agents.code_reviewer]
+description = "Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code. MUST BE USED for all code changes."
+config_file = "agents/code-reviewer.toml"
+
+[agents.code_simplifier]
+description = "Simplifies and refines code for clarity, consistency, and maintainability while preserving behavior. Focus on recently modified code unless instructed otherwise."
+config_file = "agents/code-simplifier.toml"
+
+[agents.comment_analyzer]
+description = "Analyze code comments for accuracy, completeness, maintainability, and comment rot risk."
+config_file = "agents/comment-analyzer.toml"
+
+[agents.conversation_analyzer]
+description = "Use this agent when analyzing conversation transcripts to find behaviors worth preventing with hooks. Triggered by /hookify without arguments."
+config_file = "agents/conversation-analyzer.toml"
+
+[agents.cpp_build_resolver]
+description = "C++ build, CMake, and compilation error resolution specialist. Fixes build errors, linker issues, and template errors with minimal changes. Use when C++ builds fail."
+config_file = "agents/cpp-build-resolver.toml"
+
+[agents.cpp_reviewer]
+description = "Expert C++ code reviewer specializing in memory safety, modern C++ idioms, concurrency, and performance. Use for all C++ code changes. MUST BE USED for C++ projects."
+config_file = "agents/cpp-reviewer.toml"
+
+[agents.csharp_reviewer]
+description = "Expert C# code reviewer specializing in .NET conventions, async patterns, security, nullable reference types, and performance. Use for all C# code changes. MUST BE USED for C# projects."
+config_file = "agents/csharp-reviewer.toml"
+
+[agents.dart_build_resolver]
+description = "Dart/Flutter build, analysis, and dependency error resolution specialist. Fixes `dart analyze` errors, Flutter compilation failures, pub dependency conflicts, and build_runner issues with minimal, surgical changes. Use when Dart/Flutter builds fail."
+config_file = "agents/dart-build-resolver.toml"
+
+[agents.database_reviewer]
+description = "PostgreSQL database specialist for query optimization, schema design, security, and performance. Use PROACTIVELY when writing SQL, creating migrations, designing schemas, or troubleshooting database performance. Incorporates Supabase best practices."
+config_file = "agents/database-reviewer.toml"
+
+[agents.doc_updater]
+description = "Documentation and codemap specialist. Use PROACTIVELY for updating codemaps and documentation. Runs /update-codemaps and /update-docs, generates docs/CODEMAPS/*, updates READMEs and guides."
+config_file = "agents/doc-updater.toml"
+
+[agents.docs_lookup]
+description = "When the user asks how to use a library, framework, or API or needs up-to-date code examples, use Context7 MCP to fetch current documentation and return answers with examples. Invoke for docs/API/setup questions."
+config_file = "agents/docs-lookup.toml"
+
+[agents.e2e_runner]
+description = "End-to-end testing specialist using Vercel Agent Browser (preferred) with Playwright fallback. Use PROACTIVELY for generating, maintaining, and running E2E tests. Manages test journeys, quarantines flaky tests, uploads artifacts (screenshots, videos, traces), and ensures critical user flows work."
+config_file = "agents/e2e-runner.toml"
+
+[agents.flutter_reviewer]
+description = "Flutter and Dart code reviewer. Reviews Flutter code for widget best practices, state management patterns, Dart idioms, performance pitfalls, accessibility, and clean architecture violations. Library-agnostic — works with any state management solution and tooling."
+config_file = "agents/flutter-reviewer.toml"
+
+[agents.gan_evaluator]
+description = "GAN Harness — Evaluator agent. Tests the live running application via Playwright, scores against rubric, and provides actionable feedback to the Generator."
+config_file = "agents/gan-evaluator.toml"
+
+[agents.gan_generator]
+description = "GAN Harness — Generator agent. Implements features according to the spec, reads evaluator feedback, and iterates until quality threshold is met."
+config_file = "agents/gan-generator.toml"
+
+[agents.gan_planner]
+description = "GAN Harness — Planner agent. Expands a one-line prompt into a full product specification with features, sprints, evaluation criteria, and design direction."
+config_file = "agents/gan-planner.toml"
+
+[agents.go_build_resolver]
+description = "Go build, vet, and compilation error resolution specialist. Fixes build errors, go vet issues, and linter warnings with minimal changes. Use when Go builds fail."
+config_file = "agents/go-build-resolver.toml"
+
+[agents.go_reviewer]
+description = "Expert Go code reviewer specializing in idiomatic Go, concurrency patterns, error handling, and performance. Use for all Go code changes. MUST BE USED for Go projects."
+config_file = "agents/go-reviewer.toml"
+
+[agents.harness_optimizer]
+description = "Analyze and improve the local agent harness configuration for reliability, cost, and throughput."
+config_file = "agents/harness-optimizer.toml"
+
+[agents.healthcare_reviewer]
+description = "Reviews healthcare application code for clinical safety, CDSS accuracy, PHI compliance, and medical data integrity. Specialized for EMR/EHR, clinical decision support, and health information systems."
+config_file = "agents/healthcare-reviewer.toml"
+
+[agents.java_build_resolver]
+description = "Java/Maven/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Java compiler errors, and Maven/Gradle issues with minimal changes. Use when Java or Spring Boot builds fail."
+config_file = "agents/java-build-resolver.toml"
+
+[agents.java_reviewer]
+description = "Expert Java and Spring Boot code reviewer specializing in layered architecture, JPA patterns, security, and concurrency. Use for all Java code changes. MUST BE USED for Spring Boot projects."
+config_file = "agents/java-reviewer.toml"
+
+[agents.kotlin_build_resolver]
+description = "Kotlin/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Kotlin compiler errors, and Gradle issues with minimal changes. Use when Kotlin builds fail."
+config_file = "agents/kotlin-build-resolver.toml"
+
+[agents.kotlin_reviewer]
+description = "Kotlin and Android/KMP code reviewer. Reviews Kotlin code for idiomatic patterns, coroutine safety, Compose best practices, clean architecture violations, and common Android pitfalls."
+config_file = "agents/kotlin-reviewer.toml"
+
+[agents.loop_operator]
+description = "Operate autonomous agent loops, monitor progress, and intervene safely when loops stall."
+config_file = "agents/loop-operator.toml"
+
+[agents.opensource_forker]
+description = "Fork any project for open-sourcing. Copies files, strips secrets and credentials (20+ patterns), replaces internal references with placeholders, generates .env.example, and cleans git history. First stage of the opensource-pipeline skill."
+config_file = "agents/opensource-forker.toml"
+
+[agents.opensource_packager]
+description = "Generate complete open-source packaging for a sanitized project. Produces CLAUDE.md, setup.sh, README.md, LICENSE, CONTRIBUTING.md, and GitHub issue templates. Makes any repo immediately usable with Claude Code. Third stage of the opensource-pipeline skill."
+config_file = "agents/opensource-packager.toml"
+
+[agents.opensource_sanitizer]
+description = "Verify an open-source fork is fully sanitized before release. Scans for leaked secrets, PII, internal references, and dangerous files using 20+ regex patterns. Generates a PASS/FAIL/PASS-WITH-WARNINGS report. Second stage of the opensource-pipeline skill. Use PROACTIVELY before any public release."
+config_file = "agents/opensource-sanitizer.toml"
+
+[agents.performance_optimizer]
+description = "Performance analysis and optimization specialist. Use PROACTIVELY for identifying bottlenecks, optimizing slow code, reducing bundle sizes, and improving runtime performance. Profiling, memory leaks, render optimization, and algorithmic improvements."
+config_file = "agents/performance-optimizer.toml"
+
+[agents.planner]
+description = "Expert planning specialist for complex features and refactoring. Use PROACTIVELY when users request feature implementation, architectural changes, or complex refactoring. Automatically activated for planning tasks."
+config_file = "agents/planner.toml"
+
+[agents.pr_test_analyzer]
+description = "Review pull request test coverage quality and completeness, with emphasis on behavioral coverage and real bug prevention."
+config_file = "agents/pr-test-analyzer.toml"
+
+[agents.python_reviewer]
+description = "Expert Python code reviewer specializing in PEP 8 compliance, Pythonic idioms, type hints, security, and performance. Use for all Python code changes. MUST BE USED for Python projects."
+config_file = "agents/python-reviewer.toml"
+
+[agents.pytorch_build_resolver]
+description = "PyTorch runtime, CUDA, and training error resolution specialist. Fixes tensor shape mismatches, device errors, gradient issues, DataLoader problems, and mixed precision failures with minimal changes. Use when PyTorch training or inference crashes."
+config_file = "agents/pytorch-build-resolver.toml"
+
+[agents.refactor_cleaner]
+description = "Dead code cleanup and consolidation specialist. Use PROACTIVELY for removing unused code, duplicates, and refactoring. Runs analysis tools (knip, depcheck, ts-prune) to identify dead code and safely removes it."
+config_file = "agents/refactor-cleaner.toml"
+
+[agents.rust_build_resolver]
+description = "Rust build, compilation, and dependency error resolution specialist. Fixes cargo build errors, borrow checker issues, and Cargo.toml problems with minimal changes. Use when Rust builds fail."
+config_file = "agents/rust-build-resolver.toml"
+
+[agents.rust_reviewer]
+description = "Expert Rust code reviewer specializing in ownership, lifetimes, error handling, unsafe usage, and idiomatic patterns. Use for all Rust code changes. MUST BE USED for Rust projects."
+config_file = "agents/rust-reviewer.toml"
+
+[agents.security_reviewer]
+description = "Security vulnerability detection and remediation specialist. Use PROACTIVELY after writing code that handles user input, authentication, API endpoints, or sensitive data. Flags secrets, SSRF, injection, unsafe crypto, and OWASP Top 10 vulnerabilities."
+config_file = "agents/security-reviewer.toml"
+
+[agents.seo_specialist]
+description = "SEO specialist for technical SEO audits, on-page optimization, structured data, Core Web Vitals, and content/keyword mapping. Use for site audits, meta tag reviews, schema markup, sitemap and robots issues, and SEO remediation plans."
+config_file = "agents/seo-specialist.toml"
+
+[agents.silent_failure_hunter]
+description = "Review code for silent failures, swallowed errors, bad fallbacks, and missing error propagation."
+config_file = "agents/silent-failure-hunter.toml"
+
+[agents.tdd_guide]
+description = "Test-Driven Development specialist enforcing write-tests-first methodology. Use PROACTIVELY when writing new features, fixing bugs, or refactoring code. Ensures 80%+ test coverage."
+config_file = "agents/tdd-guide.toml"
+
+[agents.type_design_analyzer]
+description = "Analyze type design for encapsulation, invariant expression, usefulness, and enforcement."
+config_file = "agents/type-design-analyzer.toml"
+
+[agents.typescript_reviewer]
+description = "Expert TypeScript/JavaScript code reviewer specializing in type safety, async correctness, Node/web security, and idiomatic patterns. Use for all TypeScript and JavaScript code changes. MUST BE USED for TypeScript/JavaScript projects."
+config_file = "agents/typescript-reviewer.toml"

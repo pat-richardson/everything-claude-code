@@ -1220,7 +1220,7 @@ ECC provides **first-class Codex support** for both the macOS app and CLI, with 
 # Run Codex CLI in the repo — AGENTS.md and .codex/ are auto-detected
 codex
 
-# Automatic setup: sync ECC assets (AGENTS.md, skills, MCP servers) into ~/.codex
+# Automatic setup: sync ECC assets (AGENTS.md, generated roles, skills, MCP servers) into ~/.codex
 npm install && bash scripts/sync-ecc-to-codex.sh
 # or: pnpm install && bash scripts/sync-ecc-to-codex.sh
 # or: yarn install && bash scripts/sync-ecc-to-codex.sh
@@ -1231,6 +1231,8 @@ cp .codex/config.toml ~/.codex/config.toml
 ```
 
 The sync script safely merges ECC MCP servers into your existing `~/.codex/config.toml` using an **add-only** strategy — it never removes or modifies your existing servers. Run with `--dry-run` to preview changes, or `--update-mcp` to force-refresh ECC servers to the latest recommended config.
+
+It also regenerates the markdown-backed Codex role files in `.codex/agents/` from `agents/*.md` before syncing them into `~/.codex/agents`. That keeps the Codex role surface repo-supported instead of turning it into a one-off migration artifact.
 
 For Context7, ECC uses the canonical Codex section name `[mcp_servers.context7]` while still launching the `@upstash/context7-mcp` package. If you already have a legacy `[mcp_servers.context7-mcp]` entry, `--update-mcp` migrates it to the canonical section name.
 
@@ -1250,7 +1252,7 @@ Codex macOS app:
 | Skills | 32 | `.agents/skills/` — SKILL.md + agents/openai.yaml per skill |
 | MCP Servers | 6 | GitHub, Context7, Exa, Memory, Playwright, Sequential Thinking (7 with Supabase via `--update-mcp` sync) |
 | Profiles | 2 | `strict` (read-only sandbox) and `yolo` (full auto-approve) |
-| Agent Roles | 3 | `.codex/agents/` — explorer, reviewer, docs-researcher |
+| Agent Roles | 51 | `.codex/agents/` — 48 generated from `agents/*.md` plus 3 hand-maintained sample roles |
 
 ### Skills
 
@@ -1306,7 +1308,24 @@ Current Codex builds support stable multi-agent workflows.
 - Point each role at a file under `.codex/agents/`
 - Use `/agent` in the CLI to inspect or steer child agents
 
-ECC ships three sample role configs:
+ECC now supports a markdown-to-TOML conversion lane for Codex roles:
+
+- Source of truth: `agents/*.md`
+- Generated Codex roles: `.codex/agents/*.toml`
+- Config wiring: matching `[agents.<name>]` sections in `.codex/config.toml`
+- Sync path: `scripts/sync-ecc-to-codex.sh` regenerates roles before copying them to `~/.codex/agents`
+- Conversion doc: `docs/CODEX-AGENT-CONVERSION.md`
+
+The converter is intentionally conservative:
+
+- It always emits the required Codex custom-agent fields: `name`, `description`, and `developer_instructions`
+- It also emits optional fields when ECC can derive them safely: `nickname_candidates`, `model`, `model_reasoning_effort`, `sandbox_mode`, `mcp_servers`, and `skills.config`
+- It maps Claude model aliases to Codex models: `opus` -> `gpt-5.5`, `sonnet` -> `gpt-5.4`, and `haiku` -> `gpt-5.4-mini`
+- It derives `skills.config` from explicit markdown skill references when a matching Codex skill exists under `.agents/skills/`
+- It derives `mcp_servers` from declared MCP tool usage when the referenced server exists in `.codex/config.toml`
+- It drops harness-specific metadata that does not cleanly map to Codex
+
+ECC still keeps three hand-maintained sample roles alongside the generated set:
 
 | Role | Purpose |
 |------|---------|

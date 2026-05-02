@@ -83,6 +83,21 @@ function runTests() {
     assert.ok(source.includes('node - "$file"'), 'extract_context7_key should use Node-based parsing');
   })) passed++; else failed++;
 
+  if (test('sync script regenerates Codex role TOML before copying it to ~/.codex/agents', () => {
+    assert.ok(
+      source.includes('scripts/codex/convert-agents-to-toml.js'),
+      'sync-ecc-to-codex.sh should reference the markdown-to-TOML converter',
+    );
+    assert.ok(
+      source.includes('--source "$REPO_ROOT/agents"') || source.includes('--source "$AGENTS_MD_SRC"'),
+      'sync-ecc-to-codex.sh should pass the markdown agents directory to the converter',
+    );
+    assert.ok(
+      source.includes('--dest "$CODEX_AGENTS_SRC"'),
+      'sync-ecc-to-codex.sh should regenerate repo-local .codex/agents before sync',
+    );
+  })) passed++; else failed++;
+
   console.log(`\nResults: Passed: ${passed}, Failed: ${failed}`);
   process.exit(failed > 0 ? 1 : 0);
 }

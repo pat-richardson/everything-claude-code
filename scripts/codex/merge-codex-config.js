@@ -24,15 +24,7 @@ try {
 }
 
 const ROOT_KEYS = ['approval_policy', 'sandbox_mode', 'web_search', 'notify', 'persistent_instructions'];
-const TABLE_PATHS = [
-  'features',
-  'profiles.strict',
-  'profiles.yolo',
-  'agents',
-  'agents.explorer',
-  'agents.reviewer',
-  'agents.docs_researcher',
-];
+const BASE_TABLE_PATHS = ['features', 'profiles.strict', 'profiles.yolo', 'agents'];
 const TOML_HEADER_RE = /^[ \t]*(?:\[[^[\]\n][^\]\n]*\]|\[\[[^[\]\n][^\]\n]*\]\])[ \t]*(?:#.*)?$/m;
 
 function log(message) {
@@ -209,6 +201,18 @@ function stringifyTableKeys(tableValue) {
   return lines.join('\n');
 }
 
+function collectAgentTablePaths(referenceConfig) {
+  const agentConfig = referenceConfig.agents;
+  if (!agentConfig || typeof agentConfig !== 'object') {
+    return [];
+  }
+
+  return Object.entries(agentConfig)
+    .filter(([key, value]) => key !== 'max_threads' && key !== 'max_depth' && value && typeof value === 'object')
+    .map(([key]) => `agents.${key}`)
+    .sort();
+}
+
 function main() {
   const args = process.argv.slice(2);
   const configPath = args.find(arg => !arg.startsWith('-'));
@@ -250,9 +254,10 @@ function main() {
     }
   }
 
+  const tablePaths = [...BASE_TABLE_PATHS, ...collectAgentTablePaths(referenceConfig)];
   const missingTables = [];
   const missingTableKeys = [];
-  for (const tablePath of TABLE_PATHS) {
+  for (const tablePath of tablePaths) {
     const pathParts = tablePath.split('.');
     const referenceValue = getNested(referenceConfig, pathParts);
     if (referenceValue === undefined) {

@@ -4,6 +4,7 @@
 
 const assert = require("assert")
 const fs = require("fs")
+const os = require("os")
 const path = require("path")
 const { spawnSync } = require("child_process")
 
@@ -58,8 +59,10 @@ function buildExpectedPublishPaths(repoRoot) {
     "scripts/session-inspect.js",
     "scripts/uninstall.js",
     "scripts/gemini-adapt-agents.js",
+    "scripts/codex/convert-agents-to-toml.js",
     "scripts/codex/merge-codex-config.js",
     "scripts/codex/merge-mcp-config.js",
+    "docs/CODEX-AGENT-CONVERSION.md",
     ".codex-plugin",
     ".mcp.json",
     "install.sh",
@@ -97,10 +100,15 @@ function main() {
       assert.deepStrictEqual(actualPublishPaths, expectedPublishPaths)
     }],
     ["npm pack publishes the reduced runtime surface", () => {
+      const npmCacheDir = fs.mkdtempSync(path.join(os.tmpdir(), "ecc-npm-pack-cache-"))
       const result = spawnSync("npm", ["pack", "--dry-run", "--json"], {
         cwd: repoRoot,
         encoding: "utf8",
         shell: process.platform === "win32",
+        env: {
+          ...process.env,
+          npm_config_cache: npmCacheDir,
+        },
       })
       assert.strictEqual(result.status, 0, result.error?.message || result.stderr)
 
@@ -110,9 +118,11 @@ function main() {
       for (const requiredPath of [
         "scripts/catalog.js",
         "scripts/consult.js",
+        "scripts/codex/convert-agents-to-toml.js",
         ".gemini/GEMINI.md",
         ".claude-plugin/plugin.json",
         ".codex-plugin/plugin.json",
+        "docs/CODEX-AGENT-CONVERSION.md",
         "schemas/install-state.schema.json",
         "skills/backend-patterns/SKILL.md",
       ]) {
