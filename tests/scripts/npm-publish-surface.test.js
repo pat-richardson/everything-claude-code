@@ -4,6 +4,7 @@
 
 const assert = require("assert")
 const fs = require("fs")
+const os = require("os")
 const path = require("path")
 const { spawnSync } = require("child_process")
 
@@ -84,8 +85,10 @@ function buildExpectedPublishPaths(repoRoot) {
     "scripts/codex/check-codex-global-state.sh",
     "scripts/codex-git-hooks",
     "scripts/codex/check-plugin-cache.js",
+    "scripts/codex/convert-agents-to-toml.js",
     "scripts/codex/merge-codex-config.js",
     "scripts/codex/merge-mcp-config.js",
+    "docs/CODEX-AGENT-CONVERSION.md",
     ".codex-plugin",
     "plugins/ecc",
     ".mcp.json",
@@ -141,10 +144,15 @@ function main() {
       assert.deepStrictEqual(actualPublishPaths, expectedPublishPaths)
     }],
     ["npm pack publishes the reduced runtime surface", () => {
+      const npmCacheDir = fs.mkdtempSync(path.join(os.tmpdir(), "ecc-npm-pack-cache-"))
       const result = spawnSync("npm", ["pack", "--dry-run", "--json"], {
         cwd: repoRoot,
         encoding: "utf8",
         shell: process.platform === "win32",
+        env: {
+          ...process.env,
+          npm_config_cache: npmCacheDir,
+        },
       })
       assert.strictEqual(result.status, 0, result.error?.message || result.stderr)
 
@@ -180,6 +188,7 @@ function main() {
         "scripts/codex-git-hooks/pre-push",
         "scripts/setup.js",
         "scripts/codex/check-plugin-cache.js",
+        "scripts/codex/convert-agents-to-toml.js",
         ".gemini/GEMINI.md",
         ".qwen/QWEN.md",
         ".claude-plugin/plugin.json",
@@ -195,6 +204,7 @@ function main() {
         "assets/hero.png",
         "assets/images/community/discord.svg",
         "assets/images/community/heart.svg",
+        "docs/CODEX-AGENT-CONVERSION.md",
         "docs/CODEX-NAVIGATION-GUIDE.md",
         "docs/COMMAND-AGENT-MAP.md",
         "docs/design/ecc-memory-vault.md",
