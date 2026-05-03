@@ -1562,12 +1562,18 @@ ECC provides Cursor IDE support with hooks, rules, agents, skills, commands, and
 # macOS/Linux
 ./install.sh --target cursor typescript
 ./install.sh --target cursor python golang swift php
+
+# Frontend UI/UX quality pack for Cursor web app work
+./install.sh --profile frontend-quality --target cursor
 ```
 
 ```powershell
 # Windows PowerShell
 .\install.ps1 --target cursor typescript
 .\install.ps1 --target cursor python golang swift php
+
+# Frontend UI/UX quality pack for Cursor web app work
+.\install.ps1 --profile frontend-quality --target cursor
 ```
 
 #### What's included for Cursor
@@ -1581,6 +1587,8 @@ ECC provides Cursor IDE support with hooks, rules, agents, skills, commands, and
 | Skills | Shared + Bundled | `.cursor/skills/` for translated additions |
 | Commands | Shared | `.cursor/commands/` if installed |
 | MCP Config | Shared | `.cursor/mcp.json` if installed |
+
+For UI-heavy React/Next.js work in Cursor, prefer `--profile frontend-quality` or add `--with capability:frontend-quality`. This combines frontend patterns, design-system checks, WCAG accessibility guidance, Playwright evaluation workflows, and Cursor hook quality reminders so generated UI is reviewed as a live product surface instead of only as code.
 
 #### Cursor loading notes
 
