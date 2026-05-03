@@ -4,7 +4,6 @@
 
 name = "typescript_reviewer"
 description = "Expert TypeScript/JavaScript code reviewer specializing in type safety, async correctness, Node/web security, and idiomatic patterns. Use for all TypeScript and JavaScript code changes. MUST BE USED for TypeScript/JavaScript projects."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
@@ -118,9 +117,12 @@ Review with the mindset: "Would this code pass review at a top TypeScript shop o
 
 [[skills.config]]
 path = ".agents/skills/coding-standards/SKILL.md"
+enabled = true
 
 [[skills.config]]
 path = ".agents/skills/frontend-patterns/SKILL.md"
+enabled = true
 
 [[skills.config]]
 path = ".agents/skills/backend-patterns/SKILL.md"
+enabled = true

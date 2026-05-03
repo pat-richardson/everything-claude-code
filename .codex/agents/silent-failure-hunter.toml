@@ -4,7 +4,6 @@
 
 name = "silent_failure_hunter"
 description = "Review code for silent failures, swallowed errors, bad fallbacks, and missing error propagation."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

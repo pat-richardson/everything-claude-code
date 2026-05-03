@@ -103,8 +103,7 @@ web_search = "live"
 
 [agents]
 # Multi-agent role limits and local role definitions.
-# Generated Codex adapter roles are sourced from `agents/*.md`.
-# Existing sample roles may still be hand-maintained alongside generated files.
+# These map to `.codex/agents/*.toml` and mirror the repo's explorer/reviewer/docs workflow.
 max_threads = 6
 max_depth = 1
 

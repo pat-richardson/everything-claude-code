@@ -4,7 +4,6 @@
 
 name = "harness_optimizer"
 description = "Analyze and improve the local agent harness configuration for reliability, cost, and throughput."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "workspace-write"
