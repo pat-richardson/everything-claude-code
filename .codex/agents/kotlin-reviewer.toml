@@ -4,6 +4,7 @@
 
 name = "kotlin_reviewer"
 description = "Kotlin and Android/KMP code reviewer. Reviews Kotlin code for idiomatic patterns, coroutine safety, Compose best practices, clean architecture violations, and common Android pitfalls."
+enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
