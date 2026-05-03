@@ -258,13 +258,16 @@ function parseArgs(argv) {
 }
 
 function collectAgentTablePaths(referenceConfig, selectedAgentSections) {
-  if (selectedAgentSections.length === 0) {
-    return [];
-  }
-
   const agentConfig = referenceConfig.agents;
   if (!agentConfig || typeof agentConfig !== 'object') {
     return [];
+  }
+
+  if (selectedAgentSections.length === 0) {
+    return Object.entries(agentConfig)
+      .filter(([key, value]) => key !== 'max_threads' && key !== 'max_depth' && value && typeof value === 'object')
+      .map(([key]) => `agents.${key}`)
+      .sort();
   }
 
   return selectedAgentSections
