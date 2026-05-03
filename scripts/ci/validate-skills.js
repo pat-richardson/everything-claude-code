@@ -17,7 +17,9 @@ function validateSkills() {
   }
 
   const entries = fs.readdirSync(SKILLS_DIR, { withFileTypes: true });
-  const dirs = entries.filter(e => e.isDirectory()).map(e => e.name);
+  const dirs = entries
+    .filter(e => e.isDirectory() && !e.name.endsWith('-workspace'))
+    .map(e => e.name);
   let hasErrors = false;
   let validCount = 0;
 

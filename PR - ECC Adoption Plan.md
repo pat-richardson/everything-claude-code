@@ -123,7 +123,7 @@ To overwrite an existing `.claude/` directory (e.g., when upgrading ECC), use `-
 ecc-init ~/path/to/my-project --force
 ```
 
-⚠️ This overwrites without backup — be certain before running.
+WARNING: This overwrites without backup — be certain before running.
 
 #### Skip Verification
 

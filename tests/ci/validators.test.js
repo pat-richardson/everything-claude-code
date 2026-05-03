@@ -451,16 +451,16 @@ function runTests() {
       zhRootReadmePath,
       zhDocsReadmePath,
     } = writeCatalogFixture(testDir);
-    const missingZhAgentsPath = path.join(testDir, 'docs', 'zh-CN', 'AGENTS.md');
-    fs.rmSync(missingZhAgentsPath);
+    const missingAgentsPath = path.join(testDir, 'AGENTS.md');
+    fs.rmSync(missingAgentsPath);
 
     const result = runCatalogValidator({
       ROOT: testDir,
       README_PATH: readmePath,
-      AGENTS_PATH: agentsPath,
+      AGENTS_PATH: missingAgentsPath,
       README_ZH_CN_PATH: zhRootReadmePath,
       DOCS_ZH_CN_README_PATH: zhDocsReadmePath,
-      DOCS_ZH_CN_AGENTS_PATH: missingZhAgentsPath,
+      DOCS_ZH_CN_AGENTS_PATH: path.join(testDir, 'docs', 'zh-CN', 'AGENTS.md'),
     });
 
     assert.strictEqual(result.code, 1, 'Should fail when a tracked doc is missing');

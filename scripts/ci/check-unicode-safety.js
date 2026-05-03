@@ -15,6 +15,8 @@ const ignoredDirs = new Set([
   '.dmux',
   '.next',
   'coverage',
+  'clief-notes',
+  'icm-workspace-workspace',
 ]);
 
 const textExtensions = new Set([

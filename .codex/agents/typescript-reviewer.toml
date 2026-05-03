@@ -118,7 +118,6 @@ Review with the mindset: "Would this code pass review at a top TypeScript shop o
 
 [[skills.config]]
 path = ".agents/skills/coding-standards/SKILL.md"
-<<<<<<< HEAD
 enabled = true
 
 [[skills.config]]
@@ -128,11 +127,3 @@ enabled = true
 [[skills.config]]
 path = ".agents/skills/backend-patterns/SKILL.md"
 enabled = true
-=======
-
-[[skills.config]]
-path = ".agents/skills/frontend-patterns/SKILL.md"
-
-[[skills.config]]
-path = ".agents/skills/backend-patterns/SKILL.md"
->>>>>>> 3aff3ee (add: multi-harness install alignment)

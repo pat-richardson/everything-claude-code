@@ -247,7 +247,7 @@ function runTests() {
     const testDir = createTestDir();
     try {
       writeCatalogFixture(testDir);
-      fs.rmSync(path.join(testDir, 'docs', 'zh-CN', 'AGENTS.md'));
+      fs.rmSync(path.join(testDir, 'AGENTS.md'));
 
       assert.throws(
         () => runCatalogCheck({ root: testDir }),

@@ -564,16 +564,19 @@ function createDocumentSpecs(paths = {}) {
       filePath: zhRootReadmePath,
       parseExpectations: parseZhRootReadmeExpectations,
       syncContent: syncZhRootReadme,
+      optional: true,
     },
     {
       filePath: zhDocsReadmePath,
       parseExpectations: parseZhDocsReadmeExpectations,
       syncContent: syncZhDocsReadme,
+      optional: true,
     },
     {
       filePath: zhDocsAgentsPath,
       parseExpectations: parseZhAgentsDocExpectations,
       syncContent: syncZhAgents,
+      optional: true,
     },
   ];
 }
@@ -640,6 +643,7 @@ function runCatalogCheck(options = {}) {
 
   if (writeMode) {
     for (const spec of documentSpecs) {
+      if (spec.optional && !fs.existsSync(spec.filePath)) continue;
       const currentContent = readFileOrThrow(spec.filePath);
       const nextContent = spec.syncContent(currentContent, catalog);
       if (nextContent !== currentContent) {
@@ -648,9 +652,10 @@ function runCatalogCheck(options = {}) {
     }
   }
 
-  const expectations = documentSpecs.flatMap(spec => (
-    spec.parseExpectations(readFileOrThrow(spec.filePath))
-  ));
+  const expectations = documentSpecs.flatMap(spec => {
+    if (spec.optional && !fs.existsSync(spec.filePath)) return [];
+    return spec.parseExpectations(readFileOrThrow(spec.filePath));
+  });
   const checks = evaluateExpectations(catalog, expectations);
   return { catalog, checks };
 }

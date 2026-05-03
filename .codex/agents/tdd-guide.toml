@@ -96,7 +96,4 @@ Release-critical paths should target pass^3 stability before merge."""
 
 [[skills.config]]
 path = ".agents/skills/tdd-workflow/SKILL.md"
-<<<<<<< HEAD
 enabled = true
-=======
->>>>>>> 3aff3ee (add: multi-harness install alignment)
