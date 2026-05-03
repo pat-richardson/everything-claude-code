@@ -521,7 +521,7 @@ startup_timeout_sec = 30
       ]);
       assert.ok(Array.isArray(parsedRole.skills.config), 'Expected [[skills.config]] entries');
       assert.deepStrictEqual(parsedRole.skills.config, [
-        { path: '.agents/skills/documentation-lookup/SKILL.md' },
+        { path: '.agents/skills/documentation-lookup/SKILL.md', enabled: true },
       ]);
       assert.deepStrictEqual(parsedRole.mcp_servers.context7, {
         command: 'npx',

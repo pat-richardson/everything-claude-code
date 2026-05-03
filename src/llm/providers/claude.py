@@ -5,8 +5,6 @@ from __future__ import annotations
 import os
 from typing import Any
 
-from anthropic import Anthropic
-
 from llm.core.interface import (
     AuthenticationError,
     ContextLengthError,
@@ -20,7 +18,14 @@ class ClaudeProvider(LLMProvider):
     provider_type = ProviderType.CLAUDE
 
     def __init__(self, api_key: str | None = None, base_url: str | None = None) -> None:
-        self.client = Anthropic(api_key=api_key or os.environ.get("ANTHROPIC_API_KEY"), base_url=base_url)
+        try:
+            from anthropic import Anthropic
+        except ModuleNotFoundError as error:
+            self.client = None
+            self._sdk_import_error = error
+        else:
+            self.client = Anthropic(api_key=api_key or os.environ.get("ANTHROPIC_API_KEY"), base_url=base_url)
+            self._sdk_import_error = None
         self._models = [
             ModelInfo(
                 name="claude-opus-4-5",
@@ -49,6 +54,9 @@ class ClaudeProvider(LLMProvider):
         ]
 
     def generate(self, input: LLMInput) -> LLMOutput:
+        if self.client is None:
+            raise ImportError("The anthropic package is required to use ClaudeProvider") from self._sdk_import_error
+
         try:
             params: dict[str, Any] = {
                 "model": input.model or "claude-sonnet-4-7",
@@ -99,7 +107,7 @@ class ClaudeProvider(LLMProvider):
         return self._models.copy()
 
     def validate_config(self) -> bool:
-        return bool(self.client.api_key)
+        return bool(self.client and self.client.api_key)
 
     def get_default_model(self) -> str:
         return "claude-sonnet-4-7"

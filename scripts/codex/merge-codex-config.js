@@ -264,10 +264,7 @@ function collectAgentTablePaths(referenceConfig, selectedAgentSections) {
   }
 
   if (selectedAgentSections.length === 0) {
-    return Object.entries(agentConfig)
-      .filter(([key, value]) => key !== 'max_threads' && key !== 'max_depth' && value && typeof value === 'object')
-      .map(([key]) => `agents.${key}`)
-      .sort();
+    return [];
   }
 
   return selectedAgentSections

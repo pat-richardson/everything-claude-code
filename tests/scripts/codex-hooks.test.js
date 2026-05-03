@@ -451,9 +451,9 @@ if (
       assert.ok(parsedConfig.agents);
       assert.strictEqual(parsedConfig.agents.max_threads, 6);
       assert.strictEqual(parsedConfig.agents.max_depth, 1);
-      assert.strictEqual(parsedConfig.agents.architect.config_file, 'agents/architect.toml');
-      assert.strictEqual(parsedConfig.agents.code_reviewer.config_file, 'agents/code-reviewer.toml');
-      assert.strictEqual(parsedConfig.agents.planner.config_file, 'agents/planner.toml');
+      assert.strictEqual(parsedConfig.agents.architect, undefined);
+      assert.strictEqual(parsedConfig.agents.code_reviewer, undefined);
+      assert.strictEqual(parsedConfig.agents.planner, undefined);
       assert.ok(parsedConfig.mcp_servers.exa);
       assert.ok(parsedConfig.mcp_servers.github);
       assert.ok(parsedConfig.mcp_servers.memory);
@@ -494,7 +494,7 @@ if (
       const parsedConfig = TOML.parse(fs.readFileSync(configPath, 'utf8'));
       assert.strictEqual(parsedConfig.agents.max_threads, 6);
       assert.strictEqual(parsedConfig.agents.max_depth, 1);
-      assert.strictEqual(parsedConfig.agents.architect.config_file, 'agents/architect.toml');
+      assert.strictEqual(parsedConfig.agents.architect, undefined);
     } finally {
       cleanup(homeDir);
     }

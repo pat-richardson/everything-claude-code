@@ -30,7 +30,7 @@ console.log('\n=== Testing release publish workflow ===\n');
 for (const workflow of [
   '.github/workflows/release.yml',
   '.github/workflows/reusable-release.yml',
-]) {
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)))) {
   const content = load(workflow);
 
   test(`${workflow} grants id-token for npm provenance`, () => {

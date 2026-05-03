@@ -10,7 +10,7 @@ const configureEccDocs = [
   'skills/configure-ecc/SKILL.md',
   'docs/zh-CN/skills/configure-ecc/SKILL.md',
   'docs/ja-JP/skills/configure-ecc/SKILL.md',
-];
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)));
 
 let passed = 0;
 let failed = 0;

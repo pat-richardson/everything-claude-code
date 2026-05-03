@@ -20,8 +20,25 @@ class PromptConfig:
 
 
 class PromptBuilder:
-    def __init__(self, config: PromptConfig | None = None) -> None:
-        self.config = config or PromptConfig()
+    def __init__(
+        self,
+        config: PromptConfig | None = None,
+        system_template: str | None = None,
+        user_template: str | None = None,
+        include_tools_in_system: bool | None = None,
+        tool_format: str | None = None,
+    ) -> None:
+        base_config = config or PromptConfig()
+        self.config = PromptConfig(
+            system_template=system_template if system_template is not None else base_config.system_template,
+            user_template=user_template if user_template is not None else base_config.user_template,
+            include_tools_in_system=(
+                include_tools_in_system
+                if include_tools_in_system is not None
+                else base_config.include_tools_in_system
+            ),
+            tool_format=tool_format if tool_format is not None else base_config.tool_format,
+        )
 
     def build(self, messages: list[Message], tools: list[ToolDefinition] | None = None) -> list[Message]:
         if not messages:

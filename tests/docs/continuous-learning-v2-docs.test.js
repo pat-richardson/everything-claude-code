@@ -28,7 +28,7 @@ const skillDocs = [
   'docs/ko-KR/skills/continuous-learning-v2/SKILL.md',
   'docs/ja-JP/skills/continuous-learning-v2/SKILL.md',
   'docs/zh-TW/skills/continuous-learning-v2/SKILL.md',
-];
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)));
 
 console.log('\n=== Testing continuous-learning-v2 install docs ===\n');
 

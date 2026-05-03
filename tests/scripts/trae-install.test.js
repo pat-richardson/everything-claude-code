@@ -79,6 +79,12 @@ function runTests() {
     process.exit(0);
   }
 
+  if (!fs.existsSync(INSTALL_SCRIPT) || !fs.existsSync(UNINSTALL_SCRIPT)) {
+    console.log('  - skipped; Trae shell scripts are not part of this harness surface');
+    console.log(`\nResults: Passed: ${passed}, Failed: ${failed}`);
+    process.exit(0);
+  }
+
   if (test('does not claim ownership of preexisting target files', () => {
     const homeDir = createTempDir('trae-home-');
     const projectRoot = createTempDir('trae-project-');

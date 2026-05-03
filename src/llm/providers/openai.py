@@ -6,8 +6,6 @@ import json
 import os
 from typing import Any
 
-from openai import OpenAI
-
 from llm.core.interface import (
     AuthenticationError,
     ContextLengthError,
@@ -21,7 +19,14 @@ class OpenAIProvider(LLMProvider):
     provider_type = ProviderType.OPENAI
 
     def __init__(self, api_key: str | None = None, base_url: str | None = None) -> None:
-        self.client = OpenAI(api_key=api_key or os.environ.get("OPENAI_API_KEY"), base_url=base_url)
+        try:
+            from openai import OpenAI
+        except ModuleNotFoundError as error:
+            self.client = None
+            self._sdk_import_error = error
+        else:
+            self.client = OpenAI(api_key=api_key or os.environ.get("OPENAI_API_KEY"), base_url=base_url)
+            self._sdk_import_error = None
         self._models = [
             ModelInfo(
                 name="gpt-4o",
@@ -58,6 +63,9 @@ class OpenAIProvider(LLMProvider):
         ]
 
     def generate(self, input: LLMInput) -> LLMOutput:
+        if self.client is None:
+            raise ImportError("The openai package is required to use OpenAIProvider") from self._sdk_import_error
+
         try:
             params: dict[str, Any] = {
                 "model": input.model or "gpt-4o-mini",
@@ -108,7 +116,7 @@ class OpenAIProvider(LLMProvider):
         return self._models.copy()
 
     def validate_config(self) -> bool:
-        return bool(self.client.api_key)
+        return bool(self.client and self.client.api_key)
 
     def get_default_model(self) -> str:
         return "gpt-4o-mini"

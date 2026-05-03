@@ -1,0 +1,7 @@
+interface:
+  display_name: "Git Workflow"
+  short_description: "Branching, commits, PRs, and release workflow"
+  brand_color: "#F97316"
+  default_prompt: "Use $git-workflow to plan branching, commits, pull requests, and releases."
+policy:
+  allow_implicit_invocation: true

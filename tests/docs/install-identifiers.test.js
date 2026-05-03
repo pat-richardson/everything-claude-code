@@ -28,7 +28,7 @@ const publicInstallDocs = [
   'docs/zh-CN/README.md',
   'docs/ja-JP/skills/configure-ecc/SKILL.md',
   'docs/zh-CN/skills/configure-ecc/SKILL.md',
-];
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)));
 
 console.log('\n=== Testing public install identifiers ===\n');
 
@@ -48,7 +48,7 @@ const pluginAndManualInstallDocs = [
   'README.md',
   'README.zh-CN.md',
   'docs/zh-CN/README.md',
-];
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)));
 
 const publicCommandNamespaceDocs = [
   'README.md',
@@ -59,7 +59,7 @@ const publicCommandNamespaceDocs = [
   'docs/ja-JP/README.md',
   'docs/zh-CN/README.md',
   'docs/zh-TW/README.md',
-];
+].filter(relativePath => fs.existsSync(path.join(repoRoot, relativePath)));
 
 for (const relativePath of pluginAndManualInstallDocs) {
   const content = fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');

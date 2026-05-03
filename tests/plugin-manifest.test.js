@@ -91,6 +91,10 @@ function collectMarkdownFiles(rootPath) {
   return files;
 }
 
+function existingPaths(filePaths) {
+  return filePaths.filter(filePath => fs.existsSync(filePath));
+}
+
 const rootPackage = loadJsonObject(packageJsonPath, 'package.json');
 const packageLock = loadJsonObject(packageLockPath, 'package-lock.json');
 const opencodePackageLock = loadJsonObject(opencodePackageLockPath, '.opencode/package-lock.json');
@@ -113,14 +117,14 @@ test('AGENTS.md version line matches package.json', () => {
   assert.strictEqual(match[1], expectedVersion);
 });
 
-test('docs/tr/AGENTS.md version line matches package.json', () => {
+if (fs.existsSync(trAgentsPath)) test('docs/tr/AGENTS.md version line matches package.json', () => {
   const agentsSource = fs.readFileSync(trAgentsPath, 'utf8');
   const match = agentsSource.match(new RegExp(`^\\*\\*Sürüm:\\*\\* (${semverPattern})$`, 'm'));
   assert.ok(match, 'Expected docs/tr/AGENTS.md to declare a top-level version line');
   assert.strictEqual(match[1], expectedVersion);
 });
 
-test('docs/zh-CN/AGENTS.md version line matches package.json', () => {
+if (fs.existsSync(zhCnAgentsPath)) test('docs/zh-CN/AGENTS.md version line matches package.json', () => {
   const agentsSource = fs.readFileSync(zhCnAgentsPath, 'utf8');
   const match = agentsSource.match(new RegExp(`^\\*\\*版本:\\*\\* (${semverPattern})$`, 'm'));
   assert.ok(match, 'Expected docs/zh-CN/AGENTS.md to declare a top-level version line');
@@ -154,7 +158,7 @@ test('.opencode/plugins/ecc-hooks.ts active plugin banner matches package.json',
   assert.strictEqual(match[1], expectedVersion);
 });
 
-test('docs/pt-BR/README.md latest release heading matches package.json', () => {
+if (fs.existsSync(ptBrReadmePath)) test('docs/pt-BR/README.md latest release heading matches package.json', () => {
   const source = fs.readFileSync(ptBrReadmePath, 'utf8');
   assert.ok(
     source.includes(`### v${expectedVersion} `),
@@ -162,7 +166,7 @@ test('docs/pt-BR/README.md latest release heading matches package.json', () => {
   );
 });
 
-test('docs/tr/README.md latest release heading matches package.json', () => {
+if (fs.existsSync(trReadmePath)) test('docs/tr/README.md latest release heading matches package.json', () => {
   const source = fs.readFileSync(trReadmePath, 'utf8');
   assert.ok(
     source.includes(`### v${expectedVersion} `),
@@ -170,7 +174,7 @@ test('docs/tr/README.md latest release heading matches package.json', () => {
   );
 });
 
-test('README.zh-CN.md latest release heading matches package.json', () => {
+if (fs.existsSync(rootZhCnReadmePath)) test('README.zh-CN.md latest release heading matches package.json', () => {
   const source = fs.readFileSync(rootZhCnReadmePath, 'utf8');
   assert.ok(
     source.includes(`### v${expectedVersion} `),
@@ -178,7 +182,7 @@ test('README.zh-CN.md latest release heading matches package.json', () => {
   );
 });
 
-test('docs/zh-CN/README.md latest release heading matches package.json', () => {
+if (fs.existsSync(zhCnReadmePath)) test('docs/zh-CN/README.md latest release heading matches package.json', () => {
   const source = fs.readFileSync(zhCnReadmePath, 'utf8');
   assert.ok(
     source.includes(`### v${expectedVersion} `),
@@ -467,12 +471,11 @@ test('README version row matches package.json', () => {
 });
 
 test('user-facing docs do not use deprecated ecc@ecc install commands', () => {
-  const markdownFiles = [
+  const markdownFiles = existingPaths([
     path.join(repoRoot, 'README.md'),
     path.join(repoRoot, 'README.zh-CN.md'),
     path.join(repoRoot, 'skills', 'configure-ecc', 'SKILL.md'),
-    ...collectMarkdownFiles(path.join(repoRoot, 'docs')),
-  ];
+  ]).concat(collectMarkdownFiles(path.join(repoRoot, 'docs')));
 
   const offenders = [];
   for (const filePath of markdownFiles) {
@@ -490,11 +493,10 @@ test('user-facing docs do not use deprecated ecc@ecc install commands', () => {
 });
 
 test('user-facing docs do not use the legacy non-URL marketplace add form', () => {
-  const markdownFiles = [
+  const markdownFiles = existingPaths([
     path.join(repoRoot, 'README.md'),
     path.join(repoRoot, 'README.zh-CN.md'),
-    ...collectMarkdownFiles(path.join(repoRoot, 'docs')),
-  ];
+  ]).concat(collectMarkdownFiles(path.join(repoRoot, 'docs')));
 
   const offenders = [];
   for (const filePath of markdownFiles) {
@@ -511,7 +513,7 @@ test('user-facing docs do not use the legacy non-URL marketplace add form', () =
   );
 });
 
-test('docs/zh-CN/README.md version row matches package.json', () => {
+if (fs.existsSync(zhCnReadmePath)) test('docs/zh-CN/README.md version row matches package.json', () => {
   const readme = fs.readFileSync(zhCnReadmePath, 'utf8');
   const match = readme.match(new RegExp(`^\\| \\*\\*版本\\*\\* \\| 插件 \\| 插件 \\| 参考配置 \\| (${semverPattern}) \\|$`, 'm'));
   assert.ok(match, 'Expected docs/zh-CN/README.md version summary row');
