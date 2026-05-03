@@ -4,6 +4,7 @@
 
 name = "code_simplifier"
 description = "Simplifies and refines code for clarity, consistency, and maintainability while preserving behavior. Focus on recently modified code unless instructed otherwise."
+enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
