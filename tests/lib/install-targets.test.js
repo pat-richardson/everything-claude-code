@@ -65,6 +65,112 @@ function runTests() {
     assert.strictEqual(statePath, path.join(homeDir, '.claude', 'ecc', 'install-state.json'));
   })) passed++; else failed++;
 
+  if (test('resolves claude-project adapter root and install-state path from project root', () => {
+    const adapter = getInstallTargetAdapter('claude-project');
+    const projectRoot = '/workspace/app';
+    const root = adapter.resolveRoot({ projectRoot });
+    const statePath = adapter.getInstallStatePath({ projectRoot });
+
+    assert.strictEqual(adapter.id, 'claude-project');
+    assert.strictEqual(adapter.target, 'claude-project');
+    assert.strictEqual(adapter.kind, 'project');
+    assert.strictEqual(root, path.join(projectRoot, '.claude'));
+    assert.strictEqual(statePath, path.join(projectRoot, '.claude', 'ecc-install-state.json'));
+  })) passed++; else failed++;
+
+  if (test('plans claude-project installs into project-local Claude paths', () => {
+    const repoRoot = path.join(__dirname, '..', '..');
+    const projectRoot = '/workspace/app';
+
+    const plan = planInstallTargetScaffold({
+      target: 'claude-project',
+      repoRoot,
+      projectRoot,
+      modules: [
+        {
+          id: 'agents-core',
+          paths: ['agents', 'AGENTS.md'],
+        },
+        {
+          id: 'platform-configs',
+          paths: ['.claude-plugin'],
+        },
+      ],
+    });
+
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'agents'
+        && operation.destinationPath === path.join(projectRoot, '.claude', 'agents')
+      )),
+      'Should install Claude markdown agents under the project .claude root'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'AGENTS.md'
+        && operation.destinationPath === path.join(projectRoot, '.claude', 'CLAUDE.md')
+      )),
+      'Should install root project instructions as .claude/CLAUDE.md'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === '.claude-plugin'
+        && operation.destinationPath === path.join(projectRoot, '.claude')
+        && operation.strategy === 'sync-root-children'
+      )),
+      'Should flatten Claude plugin defaults into the project .claude root'
+    );
+  })) passed++; else failed++;
+
+  if (test('resolves codex-project adapter root and installs generated role TOML', () => {
+    const adapter = getInstallTargetAdapter('codex-project');
+    const repoRoot = path.join(__dirname, '..', '..');
+    const projectRoot = '/workspace/app';
+
+    assert.strictEqual(adapter.resolveRoot({ projectRoot }), path.join(projectRoot, '.codex'));
+    assert.strictEqual(
+      adapter.getInstallStatePath({ projectRoot }),
+      path.join(projectRoot, '.codex', 'ecc-install-state.json')
+    );
+
+    const plan = planInstallTargetScaffold({
+      target: 'codex-project',
+      repoRoot,
+      projectRoot,
+      modules: [
+        {
+          id: 'agents-core',
+          paths: ['.agents', 'agents', 'AGENTS.md'],
+        },
+        {
+          id: 'platform-configs',
+          paths: ['.codex'],
+        },
+      ],
+    });
+
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === '.codex/agents/architect.toml'
+        && operation.destinationPath === path.join(projectRoot, '.codex', 'agents', 'architect.toml')
+      )),
+      'Should install generated Codex role TOML from .codex/agents'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === '.codex/config.toml'
+        && operation.destinationPath === path.join(projectRoot, '.codex', 'config.toml')
+      )),
+      'Should install project Codex config'
+    );
+    assert.ok(
+      !plan.operations.some(operation => (
+        normalizedRelativePath(operation.sourceRelativePath) === 'agents/architect.md'
+      )),
+      'Should not install markdown Claude agents into .codex/agents'
+    );
+  })) passed++; else failed++;
+
   if (test('plans claude rules and skills under ECC-managed subdirectories', () => {
     const repoRoot = path.join(__dirname, '..', '..');
     const homeDir = '/Users/example';

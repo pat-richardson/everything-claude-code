@@ -13,6 +13,7 @@ function parseInstallArgs(argv) {
   const parsed = {
     target: null,
     dryRun: false,
+    claim: false,
     json: false,
     help: false,
     configPath: null,
@@ -53,6 +54,8 @@ function parseInstallArgs(argv) {
       index += 1;
     } else if (arg === '--dry-run') {
       parsed.dryRun = true;
+    } else if (arg === '--claim') {
+      parsed.claim = true;
     } else if (arg === '--json') {
       parsed.json = true;
     } else if (arg === '--help' || arg === '-h') {

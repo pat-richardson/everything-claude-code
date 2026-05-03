@@ -24,7 +24,12 @@ try {
 }
 
 const ROOT_KEYS = ['approval_policy', 'sandbox_mode', 'web_search', 'notify', 'persistent_instructions'];
-const BASE_TABLE_PATHS = ['features', 'profiles.strict', 'profiles.yolo', 'agents'];
+const BASE_TABLE_PATHS = [
+  'features',
+  'profiles.strict',
+  'profiles.yolo',
+  'agents',
+];
 const TOML_HEADER_RE = /^[ \t]*(?:\[[^[\]\n][^\]\n]*\]|\[\[[^[\]\n][^\]\n]*\]\])[ \t]*(?:#.*)?$/m;
 
 function log(message) {
@@ -201,25 +206,82 @@ function stringifyTableKeys(tableValue) {
   return lines.join('\n');
 }
 
-function collectAgentTablePaths(referenceConfig) {
+function normalizeAgentSection(value) {
+  return String(value || '')
+    .trim()
+    .replace(/\.toml$/i, '')
+    .replace(/-/g, '_')
+    .replace(/^agents\./, '');
+}
+
+function parseArgs(argv) {
+  const parsed = {
+    configPath: '',
+    dryRun: false,
+    agentSections: [],
+  };
+
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (arg === '--dry-run') {
+      parsed.dryRun = true;
+      continue;
+    }
+    if (arg === '--agent') {
+      parsed.agentSections.push(normalizeAgentSection(argv[index + 1] || ''));
+      index += 1;
+      continue;
+    }
+    if (arg === '--agents') {
+      parsed.agentSections.push(
+        ...String(argv[index + 1] || '')
+          .split(',')
+          .map(normalizeAgentSection)
+      );
+      index += 1;
+      continue;
+    }
+    if (arg.startsWith('--')) {
+      console.error(`[ecc-codex] Unknown argument: ${arg}`);
+      process.exit(1);
+    }
+    if (!parsed.configPath) {
+      parsed.configPath = arg;
+      continue;
+    }
+    console.error(`[ecc-codex] Unexpected argument: ${arg}`);
+    process.exit(1);
+  }
+
+  parsed.agentSections = [...new Set(parsed.agentSections.filter(Boolean))].sort();
+  return parsed;
+}
+
+function collectAgentTablePaths(referenceConfig, selectedAgentSections) {
+  if (selectedAgentSections.length === 0) {
+    return [];
+  }
+
   const agentConfig = referenceConfig.agents;
   if (!agentConfig || typeof agentConfig !== 'object') {
     return [];
   }
 
-  return Object.entries(agentConfig)
-    .filter(([key, value]) => key !== 'max_threads' && key !== 'max_depth' && value && typeof value === 'object')
-    .map(([key]) => `agents.${key}`)
+  return selectedAgentSections
+    .filter(section => {
+      const value = agentConfig[section];
+      return value && typeof value === 'object' && !Array.isArray(value);
+    })
+    .map(section => `agents.${section}`)
     .sort();
 }
 
 function main() {
-  const args = process.argv.slice(2);
-  const configPath = args.find(arg => !arg.startsWith('-'));
-  const dryRun = args.includes('--dry-run');
+  const options = parseArgs(process.argv.slice(2));
+  const configPath = options.configPath;
 
   if (!configPath) {
-    console.error('Usage: merge-codex-config.js <config.toml> [--dry-run]');
+    console.error('Usage: merge-codex-config.js <config.toml> [--dry-run] [--agent <name>]... [--agents <name,name,...>]');
     process.exit(1);
   }
 
@@ -254,7 +316,10 @@ function main() {
     }
   }
 
-  const tablePaths = [...BASE_TABLE_PATHS, ...collectAgentTablePaths(referenceConfig)];
+  const tablePaths = [
+    ...BASE_TABLE_PATHS,
+    ...collectAgentTablePaths(referenceConfig, options.agentSections),
+  ];
   const missingTables = [];
   const missingTableKeys = [];
   for (const tablePath of tablePaths) {
@@ -310,7 +375,7 @@ function main() {
     nextRaw = appendBlock(nextRaw, stringifyTable(tablePath, getNested(referenceConfig, tablePath.split('.'))));
   }
 
-  if (dryRun) {
+  if (options.dryRun) {
     log('Dry run — would write the merged Codex baseline.');
     return;
   }

@@ -1,6 +1,7 @@
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
+enabled = true
 
 developer_instructions = """
 Review like an owner.

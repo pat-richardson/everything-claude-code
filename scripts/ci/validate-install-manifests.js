@@ -21,6 +21,9 @@ const COMPONENT_FAMILY_PREFIXES = {
   language: 'lang:',
   framework: 'framework:',
   capability: 'capability:',
+  agent: 'agent:',
+  skill: 'skill:',
+  mcp: 'mcp:',
 };
 
 function readJson(filePath, label) {

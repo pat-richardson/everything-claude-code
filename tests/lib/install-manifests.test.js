@@ -98,6 +98,10 @@ function runTests() {
       'Should include lang:c');
     assert.ok(components.some(component => component.id === 'capability:security'),
       'Should include capability:security');
+    assert.ok(components.some(component => component.id === 'mcp:context7'),
+      'Should include mcp:context7');
+    assert.ok(components.some(component => component.id === 'capability:ui-ux'),
+      'Should include capability:ui-ux');
   })) passed++; else failed++;
 
   if (test('gets install component details and validates component IDs', () => {
@@ -135,6 +139,15 @@ function runTests() {
       () => listInstallComponents({ target: 'unknown-target' }),
       /Unknown install target: unknown-target/
     );
+  })) passed++; else failed++;
+
+  if (test('lists mcp install components and supports project targets', () => {
+    const mcpComponents = listInstallComponents({ family: 'mcp', target: 'codex-project' });
+
+    assert.ok(mcpComponents.some(component => component.id === 'mcp:context7'));
+    assert.ok(mcpComponents.some(component => component.id === 'mcp:playwright'));
+    assert.ok(mcpComponents.every(component => component.family === 'mcp'));
+    assert.ok(mcpComponents.every(component => component.targets.includes('codex-project')));
   })) passed++; else failed++;
 
   if (test('labels continuous-learning as a legacy v1 install surface', () => {
@@ -227,6 +240,25 @@ function runTests() {
     assert.ok(!plan.selectedModuleIds.includes('hooks-runtime'),
       'minimal profile should not install hooks-runtime');
     assert.ok(plan.operations.length > 0, 'Should include install operations');
+  })) passed++; else failed++;
+
+  if (test('resolves project-level Claude and Codex targets', () => {
+    const projectRoot = '/workspace/app';
+    const claudePlan = resolveInstallPlan({ profileId: 'core', target: 'claude-project', projectRoot });
+    const codexPlan = resolveInstallPlan({ profileId: 'developer', target: 'codex-project', projectRoot });
+
+    assert.strictEqual(claudePlan.targetAdapterId, 'claude-project');
+    assert.strictEqual(claudePlan.targetRoot, path.join(projectRoot, '.claude'));
+    assert.strictEqual(claudePlan.installStatePath, path.join(projectRoot, '.claude', 'ecc-install-state.json'));
+    assert.ok(claudePlan.selectedModuleIds.includes('agents-core'));
+
+    assert.strictEqual(codexPlan.targetAdapterId, 'codex-project');
+    assert.strictEqual(codexPlan.targetRoot, path.join(projectRoot, '.codex'));
+    assert.strictEqual(codexPlan.installStatePath, path.join(projectRoot, '.codex', 'ecc-install-state.json'));
+    assert.ok(codexPlan.selectedModuleIds.includes('agents-core'));
+    assert.ok(codexPlan.selectedModuleIds.includes('platform-configs'));
+    assert.ok(!codexPlan.selectedModuleIds.includes('commands-core'),
+      'Codex project installs should skip modules without native Codex support');
   })) passed++; else failed++;
 
   if (test('resolves explicit modules with dependency expansion', () => {

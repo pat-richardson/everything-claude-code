@@ -23,6 +23,26 @@ process.env.USERPROFILE = tmpHome; // Windows: os.homedir() uses USERPROFILE
 
 const aliases = require('../../scripts/lib/session-aliases');
 
+process.on('exit', () => {
+  if (origHome !== undefined) {
+    process.env.HOME = origHome;
+  } else {
+    delete process.env.HOME;
+  }
+
+  if (origUserProfile !== undefined) {
+    process.env.USERPROFILE = origUserProfile;
+  } else {
+    delete process.env.USERPROFILE;
+  }
+
+  try {
+    fs.rmSync(tmpHome, { recursive: true, force: true });
+  } catch {
+    // best-effort cleanup
+  }
+});
+
 // Test helper
 function test(name, fn) {
   try {
@@ -825,19 +845,6 @@ function runTests() {
     aliases.deleteAlias('atomic-test');
     aliases.deleteAlias('atomic-test-2');
   })) passed++; else failed++;
-
-  // Cleanup — restore both HOME and USERPROFILE (Windows)
-  process.env.HOME = origHome;
-  if (origUserProfile !== undefined) {
-    process.env.USERPROFILE = origUserProfile;
-  } else {
-    delete process.env.USERPROFILE;
-  }
-  try {
-    fs.rmSync(tmpHome, { recursive: true, force: true });
-  } catch {
-    // best-effort
-  }
 
   // ── Round 48: rapid sequential saves data integrity ──
   console.log('\nRound 48: rapid sequential saves:');

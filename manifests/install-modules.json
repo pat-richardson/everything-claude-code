@@ -10,6 +10,7 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codebuddy"
@@ -30,9 +31,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "codebuddy"
       ],
       "dependencies": [],
@@ -49,6 +52,7 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "opencode",
@@ -70,6 +74,7 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "opencode",
         "codebuddy"
@@ -95,9 +100,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "gemini",
         "opencode",
         "codebuddy"
@@ -153,9 +160,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -181,9 +190,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -219,9 +230,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -254,9 +267,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -278,9 +293,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -309,9 +326,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -347,9 +366,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -370,9 +391,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -397,8 +420,10 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -425,7 +450,9 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "codex",
+        "codex-project",
         "opencode"
       ],
       "dependencies": [
@@ -450,9 +477,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -489,9 +518,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -512,9 +543,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -541,9 +574,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],
@@ -564,9 +599,11 @@
       ],
       "targets": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "opencode",
         "codebuddy"
       ],

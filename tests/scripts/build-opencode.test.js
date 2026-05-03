@@ -4,6 +4,7 @@
 
 const assert = require("assert")
 const fs = require("fs")
+const os = require("os")
 const path = require("path")
 const { spawnSync } = require("child_process")
 
@@ -46,8 +47,13 @@ function main() {
       assert.ok(fs.existsSync(distEntry), ".opencode/dist/index.js should exist after build")
     }],
     ["npm pack includes the compiled OpenCode dist payload", () => {
+      const npmCacheDir = fs.mkdtempSync(path.join(os.tmpdir(), "ecc-npm-cache-"))
       const result = spawnSync("npm", ["pack", "--dry-run", "--json"], {
         cwd: repoRoot,
+        env: {
+          ...process.env,
+          npm_config_cache: npmCacheDir,
+        },
         encoding: "utf8",
         shell: process.platform === "win32",
       })

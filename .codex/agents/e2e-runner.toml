@@ -4,6 +4,7 @@
 
 name = "e2e_runner"
 description = "End-to-end testing specialist using Vercel Agent Browser (preferred) with Playwright fallback. Use PROACTIVELY for generating, maintaining, and running E2E tests. Manages test journeys, quarantines flaky tests, uploads artifacts (screenshots, videos, traces), and ensures critical user flows work."
+enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
@@ -111,4 +112,7 @@ For detailed Playwright patterns, Page Object Model examples, configuration temp
 
 [[skills.config]]
 path = ".agents/skills/e2e-testing/SKILL.md"
+<<<<<<< HEAD
 enabled = true
+=======
+>>>>>>> 3aff3ee (add: multi-harness install alignment)

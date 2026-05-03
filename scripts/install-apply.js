@@ -7,6 +7,8 @@
  */
 
 const os = require('os');
+const fs = require('fs');
+const path = require('path');
 const {
   SUPPORTED_INSTALL_TARGETS,
   listLegacyCompatibilityLanguages,
@@ -22,9 +24,9 @@ function getHelpText() {
 
   return `
 Usage: install.sh [--target <${LEGACY_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] <language> [<language> ...]
-       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --profile <name> [--with <component>]... [--without <component>]...
-       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--json] --modules <id,id,...> [--with <component>]... [--without <component>]...
-       install.sh [--dry-run] [--json] --config <path>
+       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--claim] [--json] --profile <name> [--with <component>]... [--without <component>]...
+       install.sh [--target <${SUPPORTED_INSTALL_TARGETS.join('|')}>] [--dry-run] [--claim] [--json] --modules <id,id,...> [--with <component>]... [--without <component>]...
+       install.sh [--dry-run] [--claim] [--json] --config <path>
 
 Targets:
   claude       (default) - Install ECC into ~/.claude/ with managed rules/skills under rules/ecc and skills/ecc
@@ -39,6 +41,7 @@ Options:
                       Exclude a user-facing install component
   --config <path>     Load install intent from ecc-install.json
   --dry-run    Show the install plan without copying files
+  --claim      Write ecc-install.json and install-state for an existing layout without copying files
   --json       Emit machine-readable plan/result JSON
   --help       Show this help text
 
@@ -96,6 +99,49 @@ function printHumanPlan(plan, dryRun) {
   }
 }
 
+function writeJsonFile(filePath, value) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+}
+
+function createClaimConfig(plan) {
+  const config = {
+    version: 1,
+    target: plan.target,
+  };
+
+  if (plan.profileId) {
+    config.profile = plan.profileId;
+  }
+  if (Array.isArray(plan.explicitModuleIds) && plan.explicitModuleIds.length > 0) {
+    config.modules = plan.explicitModuleIds;
+  }
+  if (Array.isArray(plan.includedComponentIds) && plan.includedComponentIds.length > 0) {
+    config.include = plan.includedComponentIds;
+  }
+  if (Array.isArray(plan.excludedComponentIds) && plan.excludedComponentIds.length > 0) {
+    config.exclude = plan.excludedComponentIds;
+  }
+
+  return config;
+}
+
+function claimInstallPlan(plan, options = {}) {
+  const { writeInstallState } = require('./lib/install-state');
+  const projectRoot = options.projectRoot || process.cwd();
+  const configPath = options.configPath || path.join(projectRoot, 'ecc-install.json');
+  const claimConfig = createClaimConfig(plan);
+
+  writeJsonFile(configPath, claimConfig);
+  writeInstallState(plan.installStatePath, plan.statePreview);
+
+  return {
+    ...plan,
+    claimed: true,
+    claimConfigPath: configPath,
+  };
+}
+
 function main() {
   try {
     const options = parseInstallArgs(process.argv);
@@ -131,6 +177,20 @@ function main() {
         console.log(JSON.stringify({ dryRun: true, plan }, null, 2));
       } else {
         printHumanPlan(plan, true);
+      }
+      return;
+    }
+
+    if (options.claim) {
+      const result = claimInstallPlan(plan, {
+        projectRoot: process.cwd(),
+        configPath: options.configPath,
+      });
+      if (options.json) {
+        console.log(JSON.stringify({ dryRun: false, claim: true, result }, null, 2));
+      } else {
+        printHumanPlan(result, false);
+        console.log(`Claim config: ${result.claimConfigPath}`);
       }
       return;
     }

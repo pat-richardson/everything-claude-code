@@ -19,9 +19,11 @@
       "type": "string",
       "enum": [
         "claude",
+        "claude-project",
         "cursor",
         "antigravity",
         "codex",
+        "codex-project",
         "gemini",
         "opencode",
         "codebuddy"
@@ -42,14 +44,14 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^(baseline|lang|framework|capability):[a-z0-9-]+$"
+        "pattern": "^(baseline|lang|framework|capability|agent|skill|mcp):[a-z0-9-]+$"
       }
     },
     "exclude": {
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^(baseline|lang|framework|capability):[a-z0-9-]+$"
+        "pattern": "^(baseline|lang|framework|capability|agent|skill|mcp):[a-z0-9-]+$"
       }
     },
     "options": {

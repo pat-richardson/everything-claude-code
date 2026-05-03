@@ -74,6 +74,12 @@ function runTests() {
     assert.ok(!source.includes('run_or_echo cp -R "$skill_dir" "$dest"'), 'skill sync cp should be removed');
   })) passed++; else failed++;
 
+  if (test('sync script delegates Codex role generation to the converter', () => {
+    assert.ok(source.includes('CODEX_AGENT_CONVERTER='), 'Expected converter path variable');
+    assert.ok(source.includes('node "$CODEX_AGENT_CONVERTER"'), 'Expected sync to invoke the Codex agent converter');
+    assert.ok(source.includes('--wire-config'), 'Expected converter to wire selected generated roles into config.toml');
+  })) passed++; else failed++;
+
   if (test('sync script avoids GNU-only grep -P parsing', () => {
     assert.ok(!source.includes('grep -oP'), 'sync-ecc-to-codex.sh should remain portable across BSD and GNU environments');
   })) passed++; else failed++;

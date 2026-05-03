@@ -426,6 +426,41 @@
       "modules": [
         "research-apis"
       ]
+    },
+    {
+      "id": "mcp:context7",
+      "family": "mcp",
+      "description": "Context7 documentation MCP configuration via the shared platform-configs module.",
+      "modules": [
+        "platform-configs"
+      ]
+    },
+    {
+      "id": "mcp:playwright",
+      "family": "mcp",
+      "description": "Playwright browser automation MCP configuration via the shared platform-configs module.",
+      "modules": [
+        "platform-configs"
+      ]
+    },
+    {
+      "id": "capability:ui-ux",
+      "family": "capability",
+      "description": "Frontend, browser QA, design system, accessibility, and SEO support for product UI work.",
+      "modules": [
+        "framework-language",
+        "media-generation"
+      ]
+    },
+    {
+      "id": "capability:gan",
+      "family": "capability",
+      "description": "Optional GAN-style agent loop and media-generation workflow support.",
+      "modules": [
+        "agentic-patterns",
+        "media-generation",
+        "orchestration"
+      ]
     }
   ]
 }

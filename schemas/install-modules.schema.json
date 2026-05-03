@@ -48,9 +48,11 @@
               "type": "string",
               "enum": [
                 "claude",
+                "claude-project",
                 "cursor",
                 "antigravity",
                 "codex",
+                "codex-project",
                 "gemini",
                 "opencode",
                 "codebuddy"

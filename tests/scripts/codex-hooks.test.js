@@ -182,7 +182,7 @@ if (
       assert.strictEqual(parsed.profiles.strict.approval_policy, 'on-request');
       assert.strictEqual(parsed.profiles.yolo.approval_policy, 'never');
       assert.strictEqual(parsed.agents.max_threads, 6);
-      assert.strictEqual(parsed.agents.explorer.config_file, 'agents/explorer.toml');
+      assert.strictEqual(parsed.agents.explorer, undefined);
     } finally {
       cleanup(tempDir);
     }
@@ -451,16 +451,16 @@ if (
       assert.ok(parsedConfig.agents);
       assert.strictEqual(parsedConfig.agents.max_threads, 6);
       assert.strictEqual(parsedConfig.agents.max_depth, 1);
-      assert.strictEqual(parsedConfig.agents.explorer.config_file, 'agents/explorer.toml');
-      assert.strictEqual(parsedConfig.agents.reviewer.config_file, 'agents/reviewer.toml');
-      assert.strictEqual(parsedConfig.agents.docs_researcher.config_file, 'agents/docs-researcher.toml');
+      assert.strictEqual(parsedConfig.agents.architect.config_file, 'agents/architect.toml');
+      assert.strictEqual(parsedConfig.agents.code_reviewer.config_file, 'agents/code-reviewer.toml');
+      assert.strictEqual(parsedConfig.agents.planner.config_file, 'agents/planner.toml');
       assert.ok(parsedConfig.mcp_servers.exa);
       assert.ok(parsedConfig.mcp_servers.github);
       assert.ok(parsedConfig.mcp_servers.memory);
       assert.ok(parsedConfig.mcp_servers['sequential-thinking']);
       assert.ok(parsedConfig.mcp_servers.context7);
 
-      for (const roleFile of ['explorer.toml', 'reviewer.toml', 'docs-researcher.toml']) {
+      for (const roleFile of ['architect.toml', 'code-reviewer.toml', 'planner.toml']) {
         assert.ok(fs.existsSync(path.join(codexDir, 'agents', roleFile)));
       }
     } finally {
@@ -494,7 +494,7 @@ if (
       const parsedConfig = TOML.parse(fs.readFileSync(configPath, 'utf8'));
       assert.strictEqual(parsedConfig.agents.max_threads, 6);
       assert.strictEqual(parsedConfig.agents.max_depth, 1);
-      assert.strictEqual(parsedConfig.agents.explorer.config_file, 'agents/explorer.toml');
+      assert.strictEqual(parsedConfig.agents.architect.config_file, 'agents/architect.toml');
     } finally {
       cleanup(homeDir);
     }

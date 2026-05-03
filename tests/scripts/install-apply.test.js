@@ -324,6 +324,60 @@ function runTests() {
     }
   })) passed++; else failed++;
 
+  if (test('installs manifest profiles into project-local Claude target', () => {
+    const homeDir = createTempDir('install-apply-home-');
+    const projectDir = createTempDir('install-apply-project-');
+
+    try {
+      const result = run(['--target', 'claude-project', '--profile', 'core'], {
+        cwd: projectDir,
+        homeDir,
+      });
+      assert.strictEqual(result.code, 0, result.stderr);
+
+      assert.ok(fs.existsSync(path.join(projectDir, '.claude', 'agents', 'architect.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.claude', 'commands', 'plan.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.claude', 'rules', 'common', 'coding-style.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.claude', 'CLAUDE.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.claude', 'ecc-install-state.json')));
+
+      const state = readJson(path.join(projectDir, '.claude', 'ecc-install-state.json'));
+      assert.strictEqual(state.target.id, 'claude-project');
+      assert.strictEqual(state.request.profile, 'core');
+      assert.strictEqual(state.request.legacyMode, false);
+    } finally {
+      cleanup(homeDir);
+      cleanup(projectDir);
+    }
+  })) passed++; else failed++;
+
+  if (test('installs manifest profiles into project-local Codex target', () => {
+    const homeDir = createTempDir('install-apply-home-');
+    const projectDir = createTempDir('install-apply-project-');
+
+    try {
+      const result = run(['--target', 'codex-project', '--profile', 'developer'], {
+        cwd: projectDir,
+        homeDir,
+      });
+      assert.strictEqual(result.code, 0, result.stderr);
+
+      assert.ok(fs.existsSync(path.join(projectDir, '.codex', 'agents', 'architect.toml')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.codex', 'config.toml')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.codex', 'AGENTS.md')));
+      assert.ok(!fs.existsSync(path.join(projectDir, '.codex', 'agents', 'architect.md')));
+      assert.ok(fs.existsSync(path.join(projectDir, '.codex', 'ecc-install-state.json')));
+
+      const state = readJson(path.join(projectDir, '.codex', 'ecc-install-state.json'));
+      assert.strictEqual(state.target.id, 'codex-project');
+      assert.strictEqual(state.request.profile, 'developer');
+      assert.ok(state.resolution.selectedModules.includes('agents-core'));
+    } finally {
+      cleanup(homeDir);
+      cleanup(projectDir);
+    }
+  })) passed++; else failed++;
+
   if (test('preserves existing top-level Claude rules and skills during managed install', () => {
     const homeDir = createTempDir('install-apply-home-');
     const projectDir = createTempDir('install-apply-project-');
@@ -762,6 +816,42 @@ function runTests() {
       assert.deepStrictEqual(state.request.excludeComponents, ['capability:orchestration']);
       assert.ok(state.resolution.selectedModules.includes('security'));
       assert.ok(!state.resolution.selectedModules.includes('orchestration'));
+    } finally {
+      cleanup(homeDir);
+      cleanup(projectDir);
+    }
+  })) passed++; else failed++;
+
+  if (test('claim mode records config and install-state without copying files', () => {
+    const homeDir = createTempDir('install-apply-home-');
+    const projectDir = createTempDir('install-apply-project-');
+
+    try {
+      fs.mkdirSync(path.join(projectDir, '.codex', 'agents'), { recursive: true });
+      fs.writeFileSync(path.join(projectDir, '.codex', 'agents', 'architect.toml'), '# existing old layout\n');
+
+      const result = run(['--target', 'codex-project', '--profile', 'developer', '--claim'], {
+        cwd: projectDir,
+        homeDir,
+      });
+      assert.strictEqual(result.code, 0, result.stderr);
+
+      assert.strictEqual(
+        fs.readFileSync(path.join(projectDir, '.codex', 'agents', 'architect.toml'), 'utf8'),
+        '# existing old layout\n',
+        'claim mode should not recopy generated agent files'
+      );
+
+      const config = readJson(path.join(projectDir, 'ecc-install.json'));
+      assert.strictEqual(config.version, 1);
+      assert.strictEqual(config.target, 'codex-project');
+      assert.strictEqual(config.profile, 'developer');
+
+      const state = readJson(path.join(projectDir, '.codex', 'ecc-install-state.json'));
+      assert.strictEqual(state.target.id, 'codex-project');
+      assert.strictEqual(state.request.profile, 'developer');
+      assert.strictEqual(state.request.legacyMode, false);
+      assert.ok(state.operations.some(operation => operation.destinationPath.endsWith(path.join('.codex', 'config.toml'))));
     } finally {
       cleanup(homeDir);
       cleanup(projectDir);

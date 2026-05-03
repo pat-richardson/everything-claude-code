@@ -64,6 +64,11 @@ function normalizeComparablePath(filePath) {
 function gitInit(dir) {
   const initResult = spawnSync('git', ['init'], { cwd: dir, encoding: 'utf8' });
   assert.strictEqual(initResult.status, 0, initResult.stderr);
+  const signingResult = spawnSync('git', ['config', 'commit.gpgsign', 'false'], {
+    cwd: dir,
+    encoding: 'utf8',
+  });
+  assert.strictEqual(signingResult.status, 0, signingResult.stderr);
 
   const remoteResult = spawnSync(
     'git',

@@ -756,29 +756,15 @@ function runTests() {
   console.log('\nsetPreferredPackageManager (success):');
 
   if (test('successfully saves preferred package manager', () => {
-    // This writes to ~/.claude/package-manager.json — read original to restore
-    const utils = require('../../scripts/lib/utils');
-    const configPath = path.join(utils.getClaudeDir(), 'package-manager.json');
-    const original = utils.readFile(configPath);
-    try {
+    withIsolatedHome(() => {
+      const utils = require('../../scripts/lib/utils');
+      const configPath = path.join(utils.getClaudeDir(), 'package-manager.json');
       const config = pm.setPreferredPackageManager('bun');
       assert.strictEqual(config.packageManager, 'bun');
       assert.ok(config.setAt, 'Should have setAt timestamp');
-      // Verify it was persisted
       const saved = JSON.parse(fs.readFileSync(configPath, 'utf8'));
       assert.strictEqual(saved.packageManager, 'bun');
-    } finally {
-      // Restore original config
-      if (original) {
-        fs.writeFileSync(configPath, original, 'utf8');
-      } else {
-        try {
-          fs.unlinkSync(configPath);
-        } catch (_err) {
-          // ignore
-        }
-      }
-    }
+    });
   })) passed++;
   else failed++;
 
