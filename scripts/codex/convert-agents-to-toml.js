@@ -28,7 +28,6 @@ const NICKNAME_RE = /^[A-Za-z0-9 _-]+$/;
 const READ_ONLY_TOOLS = new Set(['read', 'grep', 'glob', 'bash']);
 const WRITE_TOOLS = new Set(['write', 'edit', 'multiedit']);
 const MANAGED_KEYS = new Set(['name', 'description', 'tools', 'model', 'reasoning_effort', 'model_reasoning_effort', 'sandbox_mode', 'nickname_candidates']);
-const SKILL_REFERENCE_PATTERNS = [/skill:\s*`([^`]+)`/gi, /skills?:\s*`([^`]+)`/gi, /skills\/([a-z0-9_-]+)/gi];
 
 function usage() {
   console.error('Usage: convert-agents-to-toml.js --source <dir> --dest <dir> [--config <file>] [--wire-config] [--dry-run] [--check] [--include <glob>] [--exclude <glob>] [--fail-on-unsupported]');
