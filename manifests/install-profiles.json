@@ -36,6 +36,19 @@
         "orchestration"
       ]
     },
+    "frontend-quality": {
+      "description": "Frontend UI/UX quality profile for Cursor and web app work, including design-system, accessibility, browser evaluation, and React/Next guidance.",
+      "modules": [
+        "rules-core",
+        "agents-core",
+        "commands-core",
+        "hooks-runtime",
+        "platform-configs",
+        "workflow-quality",
+        "framework-language",
+        "frontend-quality"
+      ]
+    },
     "security": {
       "description": "Security-heavy setup with baseline runtime support and security-specific guidance.",
       "modules": [
@@ -71,6 +84,7 @@
         "hooks-runtime",
         "platform-configs",
         "framework-language",
+        "frontend-quality",
         "database",
         "workflow-quality",
         "security",

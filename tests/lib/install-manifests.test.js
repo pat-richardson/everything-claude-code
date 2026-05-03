@@ -81,6 +81,7 @@ function runTests() {
     const profiles = listInstallProfiles();
     assert.ok(profiles.some(profile => profile.id === 'minimal'), 'Should include minimal profile');
     assert.ok(profiles.some(profile => profile.id === 'core'), 'Should include core profile');
+    assert.ok(profiles.some(profile => profile.id === 'frontend-quality'), 'Should include frontend-quality profile');
     assert.ok(profiles.some(profile => profile.id === 'full'), 'Should include full profile');
   })) passed++; else failed++;
 
@@ -98,6 +99,32 @@ function runTests() {
       'Should include lang:c');
     assert.ok(components.some(component => component.id === 'capability:security'),
       'Should include capability:security');
+    assert.ok(components.some(component => component.id === 'capability:frontend-quality'),
+      'Should include capability:frontend-quality');
+  })) passed++; else failed++;
+
+  if (test('resolves Cursor frontend-quality profile with design and evaluation assets', () => {
+    const projectRoot = '/workspace/app';
+    const plan = resolveInstallPlan({ profileId: 'frontend-quality', target: 'cursor', projectRoot });
+
+    assert.ok(plan.selectedModuleIds.includes('frontend-quality'), 'Should include frontend-quality module');
+    assert.ok(plan.selectedModuleIds.includes('framework-language'), 'Should include frontend implementation guidance');
+    assert.ok(plan.selectedModuleIds.includes('workflow-quality'), 'Should include e2e and evaluation workflows');
+    assert.ok(plan.selectedModuleIds.includes('hooks-runtime'), 'Should include Cursor hook quality gates');
+    assert.ok(
+      plan.operations.some(operation => (
+        operation.sourceRelativePath === 'skills/design-system'
+        && operation.destinationPath === path.join(projectRoot, '.cursor', 'skills', 'design-system')
+      )),
+      'Should install design-system skill into Cursor skills'
+    );
+    assert.ok(
+      plan.operations.some(operation => (
+        operation.sourceRelativePath === 'skills/accessibility'
+        && operation.destinationPath === path.join(projectRoot, '.cursor', 'skills', 'accessibility')
+      )),
+      'Should install accessibility skill into Cursor skills'
+    );
   })) passed++; else failed++;
 
   if (test('gets install component details and validates component IDs', () => {

@@ -233,6 +233,31 @@
       "stability": "stable"
     },
     {
+      "id": "frontend-quality",
+      "kind": "skills",
+      "description": "Frontend UI/UX design-quality pack with design systems, accessibility, browser evaluation, and visual polish workflows.",
+      "paths": [
+        "skills/accessibility",
+        "skills/design-system"
+      ],
+      "targets": [
+        "claude",
+        "cursor",
+        "opencode",
+        "codebuddy"
+      ],
+      "dependencies": [
+        "rules-core",
+        "agents-core",
+        "hooks-runtime",
+        "framework-language",
+        "workflow-quality"
+      ],
+      "defaultInstall": false,
+      "cost": "medium",
+      "stability": "stable"
+    },
+    {
       "id": "security",
       "kind": "skills",
       "description": "Security review and security-focused framework guidance.",

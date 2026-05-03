@@ -97,6 +97,30 @@ function runTests() {
     }
   })) passed++; else failed++;
 
+  if (test('recommends frontend-quality for Cursor UI/UX design quality queries', () => {
+    const result = run([
+      'Cursor',
+      'frontend',
+      'UI',
+      'UX',
+      'design',
+      'quality',
+      'accessibility',
+      'visual',
+      'polish',
+      '--target',
+      'cursor',
+      '--json',
+    ]);
+
+    assert.strictEqual(result.status, 0, result.stderr);
+    const payload = parseJson(result.stdout);
+    assert.strictEqual(payload.target, 'cursor');
+    assert.strictEqual(payload.matches[0].componentId, 'capability:frontend-quality');
+    assert.ok(payload.matches[0].installCommand.includes('--with capability:frontend-quality'));
+    assert.ok(payload.profiles.some(profile => profile.id === 'frontend-quality'));
+  })) passed++; else failed++;
+
   if (test('filters recommendations by target and limit', () => {
     const result = run(['operator', 'workflows', '--target', 'codex', '--limit', '1', '--json']);
 

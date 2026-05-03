@@ -130,6 +130,14 @@
       ]
     },
     {
+      "id": "capability:frontend-quality",
+      "family": "capability",
+      "description": "Frontend UI/UX design-quality pack for Cursor and web apps: design-system, accessibility, browser evaluation, and visual polish workflows.",
+      "modules": [
+        "frontend-quality"
+      ]
+    },
+    {
       "id": "capability:research",
       "family": "capability",
       "description": "Research and API-integration skills for deep investigations and external tooling.",

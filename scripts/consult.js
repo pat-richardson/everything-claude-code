@@ -50,6 +50,22 @@ const COMPONENT_ALIASES = Object.freeze({
     'vulnerability',
     'vulnerabilities',
   ],
+  'capability:frontend-quality': [
+    'a11y',
+    'accessibility',
+    'browser',
+    'cursor',
+    'design',
+    'design-system',
+    'frontend',
+    'interface',
+    'polish',
+    'responsive',
+    'ui',
+    'ux',
+    'visual',
+    'web',
+  ],
   'capability:database': ['db', 'migration', 'migrations', 'postgres', 'postgresql', 'schema', 'sql'],
   'capability:research': ['api', 'apis', 'exa', 'external', 'investigation', 'search'],
   'capability:content': ['article', 'brand', 'business', 'copy', 'linkedin', 'writing'],
@@ -70,6 +86,7 @@ const PROFILE_ALIASES = Object.freeze({
   minimal: ['low-context', 'lean', 'no-hooks', 'base', 'lightweight'],
   core: ['baseline', 'default', 'starter'],
   developer: ['app', 'code', 'coding', 'engineering', 'software'],
+  'frontend-quality': ['a11y', 'accessibility', 'cursor', 'design', 'frontend', 'polish', 'ui', 'ux', 'visual', 'web'],
   security: ['appsec', 'audit', 'hardening', 'review', 'threat', 'vulnerability'],
   research: ['content', 'investigation', 'publishing', 'synthesis'],
   full: ['all', 'complete', 'everything'],
@@ -92,6 +109,7 @@ Options:
 Examples:
   node scripts/consult.js "security reviews"
   node scripts/consult.js "Next.js React app" --target cursor
+  node scripts/consult.js "Cursor frontend UI UX design quality" --target cursor
   node scripts/consult.js "operator workflows" --target codex --json
 `);
 
@@ -258,6 +276,15 @@ function preferredComponentBonus(component, queryTokens) {
 
   if (component.id === 'capability:security' && queryTokens.some(token => ['audit', 'review', 'security'].includes(token))) {
     bonus += 4;
+  }
+
+  if (
+    component.id === 'capability:frontend-quality'
+    && queryTokens.some(token => (
+      ['a11y', 'accessibility', 'cursor', 'design', 'frontend', 'polish', 'ui', 'ux', 'visual'].includes(token)
+    ))
+  ) {
+    bonus += 6;
   }
 
   return bonus;
