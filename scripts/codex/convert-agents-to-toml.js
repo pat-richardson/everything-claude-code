@@ -21,32 +21,17 @@ const DEFAULT_MAX_DEPTH = 1;
 const MODEL_ALIASES = {
   opus: 'gpt-5.5',
   sonnet: 'gpt-5.4',
-  haiku: 'gpt-5.4-mini',
+  haiku: 'gpt-5.4-mini'
 };
 const SUPPORTED_REASONING = new Set(['low', 'medium', 'high', 'xhigh']);
 const NICKNAME_RE = /^[A-Za-z0-9 _-]+$/;
 const READ_ONLY_TOOLS = new Set(['read', 'grep', 'glob', 'bash']);
 const WRITE_TOOLS = new Set(['write', 'edit', 'multiedit']);
-const MANAGED_KEYS = new Set([
-  'name',
-  'description',
-  'tools',
-  'model',
-  'reasoning_effort',
-  'model_reasoning_effort',
-  'sandbox_mode',
-  'nickname_candidates',
-]);
-const SKILL_REFERENCE_PATTERNS = [
-  /skill:\s*`([^`]+)`/gi,
-  /skills?:\s*`([^`]+)`/gi,
-  /skills\/([a-z0-9_-]+)/gi,
-];
+const MANAGED_KEYS = new Set(['name', 'description', 'tools', 'model', 'reasoning_effort', 'model_reasoning_effort', 'sandbox_mode', 'nickname_candidates']);
+const SKILL_REFERENCE_PATTERNS = [/skill:\s*`([^`]+)`/gi, /skills?:\s*`([^`]+)`/gi, /skills\/([a-z0-9_-]+)/gi];
 
 function usage() {
-  console.error(
-    'Usage: convert-agents-to-toml.js --source <dir> --dest <dir> [--config <file>] [--wire-config] [--dry-run] [--check] [--include <glob>] [--exclude <glob>] [--fail-on-unsupported]',
-  );
+  console.error('Usage: convert-agents-to-toml.js --source <dir> --dest <dir> [--config <file>] [--wire-config] [--dry-run] [--check] [--include <glob>] [--exclude <glob>] [--fail-on-unsupported]');
 }
 
 function parseArgs(argv) {
@@ -59,7 +44,7 @@ function parseArgs(argv) {
     wireConfig: false,
     failOnUnsupported: false,
     include: [],
-    exclude: [],
+    exclude: []
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -166,10 +151,7 @@ function matchesAnyGlob(value, patterns) {
 
 function shouldInclude(relativePath, include, exclude) {
   const basename = path.posix.basename(relativePath);
-  const includeMatch =
-    include.length === 0 ||
-    matchesAnyGlob(relativePath, include) ||
-    matchesAnyGlob(basename, include);
+  const includeMatch = include.length === 0 || matchesAnyGlob(relativePath, include) || matchesAnyGlob(basename, include);
   const excludeMatch = matchesAnyGlob(relativePath, exclude) || matchesAnyGlob(basename, exclude);
   return includeMatch && !excludeMatch;
 }
@@ -186,10 +168,7 @@ function readMarkdownFiles(sourceDir, include, exclude) {
 
 function parseFrontmatterValue(rawValue) {
   const value = rawValue.trim();
-  if (
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith("'") && value.endsWith("'"))
-  ) {
+  if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
     return value.slice(1, -1);
   }
 
@@ -294,7 +273,10 @@ function normalizeDeveloperInstructions(description, body) {
     keptLines.push(line);
   }
 
-  return keptLines.join('\n').replace(/\n{4,}/g, '\n\n\n').trim();
+  return keptLines
+    .join('\n')
+    .replace(/\n{4,}/g, '\n\n\n')
+    .trim();
 }
 
 function normalizeTools(value) {
@@ -302,7 +284,11 @@ function normalizeTools(value) {
     return [];
   }
   return value
-    .map(entry => String(entry).trim().replace(/^["']|["']$/g, ''))
+    .map(entry =>
+      String(entry)
+        .trim()
+        .replace(/^["']|["']$/g, '')
+    )
     .filter(Boolean);
 }
 
@@ -316,15 +302,9 @@ function normalizeNicknameCandidates(value, warnings, sourceLabel) {
     return null;
   }
 
-  const normalized = value
-    .map(entry => String(entry).trim())
-    .filter(Boolean);
+  const normalized = value.map(entry => String(entry).trim()).filter(Boolean);
 
-  if (
-    normalized.length !== value.length ||
-    unique(normalized).length !== normalized.length ||
-    normalized.some(entry => !NICKNAME_RE.test(entry))
-  ) {
+  if (normalized.length !== value.length || unique(normalized).length !== normalized.length || normalized.some(entry => !NICKNAME_RE.test(entry))) {
     warnings.push(`${sourceLabel}: Unsupported metadata nickname_candidates=${JSON.stringify(value)}`);
     return null;
   }
@@ -445,7 +425,7 @@ function resolveReferencedSkills(skillIds, cwd, warnings, sourceLabel) {
       warnings.push(`${sourceLabel}: Referenced Codex skill not found: ${skillId}`);
       continue;
     }
-    entries.push({ path: `.agents/skills/${skillId}/SKILL.md` });
+    entries.push({ path: `.agents/skills/${skillId}/SKILL.md`, enabled: true });
   }
   return entries;
 }
@@ -479,9 +459,7 @@ function resolveMcpServerOverrides(serverNames, configPath, warnings, sourceLabe
     return null;
   }
 
-  const availableServers = parsedConfig.mcp_servers && typeof parsedConfig.mcp_servers === 'object'
-    ? parsedConfig.mcp_servers
-    : {};
+  const availableServers = parsedConfig.mcp_servers && typeof parsedConfig.mcp_servers === 'object' ? parsedConfig.mcp_servers : {};
   const selected = {};
 
   for (const serverName of serverNames) {
@@ -498,13 +476,12 @@ function resolveMcpServerOverrides(serverNames, configPath, warnings, sourceLabe
 function generateRoleToml(sourceRelativePath, roleConfig) {
   const bodyConfig = {
     name: roleConfig.name,
-    description: roleConfig.description,
+    description: roleConfig.description
   };
 
   if (roleConfig.nickname_candidates) {
     bodyConfig.nickname_candidates = roleConfig.nickname_candidates;
   }
-  bodyConfig.enabled = true;
   if (roleConfig.model) {
     bodyConfig.model = roleConfig.model;
   }
@@ -520,18 +497,12 @@ function generateRoleToml(sourceRelativePath, roleConfig) {
   }
   if (roleConfig.skillsConfigEntries.length > 0) {
     bodyConfig.skills = { config: roleConfig.skillsConfigEntries };
+    // bodyConfig.skills.enabled = true;
   }
 
   const body = TOML.stringify(bodyConfig).trim();
 
-  return [
-    '# Generated by scripts/codex/convert-agents-to-toml.js',
-    `# Source: ${sourceRelativePath}`,
-    '# Do not edit this file directly; edit the markdown source instead.',
-    '',
-    body,
-    '',
-  ].join('\n');
+  return ['# Generated by scripts/codex/convert-agents-to-toml.js', `# Source: ${sourceRelativePath}`, '# Do not edit this file directly; edit the markdown source instead.', '', body, ''].join('\n');
 }
 
 function getNested(obj, pathParts) {
@@ -567,7 +538,9 @@ function appendBlock(raw, block) {
 }
 
 function stringifyValue(value) {
-  return TOML.stringify({ value }).trim().replace(/^value = /, '');
+  return TOML.stringify({ value })
+    .trim()
+    .replace(/^value = /, '');
 }
 
 function updateInlineTableKeys(raw, tablePath, missingKeys) {
@@ -586,9 +559,7 @@ function updateInlineTableKeys(raw, tablePath, missingKeys) {
   const body = raw.slice(parentRange.bodyStart, parentRange.bodyEnd);
   const lines = body.split('\n');
   for (let index = 0; index < lines.length; index += 1) {
-    const match = new RegExp(`^(\\s*${escapeRegExp(tableKey)}\\s*=\\s*\\{)(.*?)(\\}\\s*(?:#.*)?)$`).exec(
-      lines[index],
-    );
+    const match = new RegExp(`^(\\s*${escapeRegExp(tableKey)}\\s*=\\s*\\{)(.*?)(\\}\\s*(?:#.*)?)$`).exec(lines[index]);
     if (!match) {
       continue;
     }
@@ -634,10 +605,7 @@ function ensureAgentsRoot(raw, parsedConfig) {
   }
 
   if (parsedConfig.agents === undefined) {
-    return appendBlock(
-      nextRaw,
-      ['[agents]', `max_threads = ${DEFAULT_MAX_THREADS}`, `max_depth = ${DEFAULT_MAX_DEPTH}`].join('\n'),
-    );
+    return appendBlock(nextRaw, ['[agents]', `max_threads = ${DEFAULT_MAX_THREADS}`, `max_depth = ${DEFAULT_MAX_DEPTH}`].join('\n'));
   }
 
   if (Object.keys(missingKeys).length > 0) {
@@ -654,10 +622,7 @@ function ensureAgentSections(raw, parsedConfig, roleEntries) {
     const sectionName = `agents.${entry.roleSection}`;
     const existing = getNested(reparsed, sectionName.split('.'));
     if (existing === undefined) {
-      nextRaw = appendBlock(
-        nextRaw,
-        [`[${sectionName}]`, `description = ${stringifyValue(entry.description)}`, `config_file = ${stringifyValue(entry.configFile)}`].join('\n'),
-      );
+      nextRaw = appendBlock(nextRaw, [`[${sectionName}]`, `description = ${stringifyValue(entry.description)}`, `config_file = ${stringifyValue(entry.configFile)}`].join('\n'));
       continue;
     }
 
@@ -730,7 +695,7 @@ function main() {
       sandbox_mode: resolveSandbox(frontmatter, tools, warnings, sourceLabel),
       developer_instructions: normalizeDeveloperInstructions(summary, body),
       mcp_servers: mcpServers,
-      skillsConfigEntries,
+      skillsConfigEntries
     };
 
     const tomlText = generateRoleToml(sourceRelativePath, roleConfig);
@@ -746,7 +711,7 @@ function main() {
     roleEntries.push({
       roleSection,
       configFile: `agents/${destFileName}`,
-      description: summary,
+      description: summary
     });
   }
 

@@ -4,7 +4,6 @@
 
 name = "conversation_analyzer"
 description = "Use this agent when analyzing conversation transcripts to find behaviors worth preventing with hooks. Triggered by /hookify without arguments."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"

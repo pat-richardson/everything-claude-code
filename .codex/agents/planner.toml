@@ -4,7 +4,6 @@
 
 name = "planner"
 description = "Expert planning specialist for complex features and refactoring. Use PROACTIVELY when users request feature implementation, architectural changes, or complex refactoring. Automatically activated for planning tasks."
-enabled = true
 model = "gpt-5.5"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

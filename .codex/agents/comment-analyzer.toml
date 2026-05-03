@@ -4,7 +4,6 @@
 
 name = "comment_analyzer"
 description = "Analyze code comments for accuracy, completeness, maintainability, and comment rot risk."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
