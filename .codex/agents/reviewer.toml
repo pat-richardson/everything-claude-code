@@ -1,4 +1,3 @@
-enabled = true
 model = "gpt-5.5"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

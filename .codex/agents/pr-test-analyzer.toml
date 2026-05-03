@@ -4,7 +4,6 @@
 
 name = "pr_test_analyzer"
 description = "Review pull request test coverage quality and completeness, with emphasis on behavioral coverage and real bug prevention."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"

@@ -4,7 +4,6 @@
 
 name = "healthcare_reviewer"
 description = "Reviews healthcare application code for clinical safety, CDSS accuracy, PHI compliance, and medical data integrity. Specialized for EMR/EHR, clinical decision support, and health information systems."
-enabled = true
 model = "gpt-5.5"
 model_reasoning_effort = "high"
 sandbox_mode = "read-only"
