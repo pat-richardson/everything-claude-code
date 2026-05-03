@@ -447,7 +447,6 @@ function runTests() {
     const testDir = createTestDir();
     const {
       readmePath,
-      agentsPath,
       zhRootReadmePath,
       zhDocsReadmePath,
     } = writeCatalogFixture(testDir);
