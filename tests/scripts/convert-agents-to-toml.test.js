@@ -112,6 +112,7 @@ Use /review before merge.
         'name = "code_reviewer"',
         'description = "Expert code review specialist."',
         'nickname_candidates = [ "Atlas", "Delta", "Echo" ]',
+        'enabled = true',
         'model = "gpt-5.4"',
         'model_reasoning_effort = "high"',
         'sandbox_mode = "read-only"',
@@ -120,6 +121,7 @@ Use /review before merge.
       assert.strictEqual(parsedRole.name, 'code_reviewer');
       assert.strictEqual(parsedRole.description, 'Expert code review specialist.');
       assert.deepStrictEqual(parsedRole.nickname_candidates, ['Atlas', 'Delta', 'Echo']);
+      assert.strictEqual(parsedRole.enabled, true);
       assert.strictEqual(parsedRole.model, 'gpt-5.4');
       assert.strictEqual(parsedRole.model_reasoning_effort, 'high');
       assert.strictEqual(parsedRole.sandbox_mode, 'read-only');

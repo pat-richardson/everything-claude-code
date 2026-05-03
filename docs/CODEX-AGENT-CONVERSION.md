@@ -53,6 +53,7 @@ The converter emits the required custom-agent fields plus a conservative subset 
 
 - `name`
 - `description`
+- `enabled`
 - `developer_instructions`
 - `nickname_candidates`
 - `model`
@@ -111,6 +112,11 @@ Dropped content includes:
 - Always generated because Codex requires it for custom agent files.
 - Uses frontmatter `description` when present.
 - Falls back to the first sentence of the markdown body when description is missing.
+
+### `enabled`
+
+- Always generated as `true` because Codex requires it for custom agent files.
+- ECC keeps converted roles enabled by default; disabling a generated role should happen in the active Codex configuration or by excluding it from conversion rather than hand-editing generated TOML.
 
 ### `nickname_candidates`
 

@@ -79,7 +79,7 @@ ECC supports a repo-native conversion lane from `agents/*.md` to `.codex/agents/
 
 - Generated role files are produced by `scripts/codex/convert-agents-to-toml.js`
 - `scripts/sync-ecc-to-codex.sh` regenerates those role files before copying them into `~/.codex/agents`
-- Generated files always include Codex-required `name`, `description`, and `developer_instructions`
+- Generated files always include Codex-required `name`, `description`, `enabled`, and `developer_instructions`
 - Generated files may also include `nickname_candidates`, `model`, `model_reasoning_effort`, `sandbox_mode`, `mcp_servers`, and `skills.config` when ECC can derive them safely
 - Markdown references to Codex-loadable skills under `.agents/skills/` are carried into generated `[[skills.config]]` entries
 - Declared MCP tool usage can pull matching server definitions into agent-local `mcp_servers` blocks

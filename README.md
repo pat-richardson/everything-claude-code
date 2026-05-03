@@ -1318,7 +1318,7 @@ ECC now supports a markdown-to-TOML conversion lane for Codex roles:
 
 The converter is intentionally conservative:
 
-- It always emits the required Codex custom-agent fields: `name`, `description`, and `developer_instructions`
+- It always emits the required Codex custom-agent fields: `name`, `description`, `enabled`, and `developer_instructions`
 - It also emits optional fields when ECC can derive them safely: `nickname_candidates`, `model`, `model_reasoning_effort`, `sandbox_mode`, `mcp_servers`, and `skills.config`
 - It maps Claude model aliases to Codex models: `opus` -> `gpt-5.5`, `sonnet` -> `gpt-5.4`, and `haiku` -> `gpt-5.4-mini`
 - It derives `skills.config` from explicit markdown skill references when a matching Codex skill exists under `.agents/skills/`
