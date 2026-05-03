@@ -4,7 +4,6 @@
 
 name = "gan_generator"
 description = "GAN Harness — Generator agent. Implements features according to the spec, reads evaluator feedback, and iterates until quality threshold is met."
-enabled = true
 model = "gpt-5.5"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
