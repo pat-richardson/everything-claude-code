@@ -504,6 +504,7 @@ function generateRoleToml(sourceRelativePath, roleConfig) {
   if (roleConfig.nickname_candidates) {
     bodyConfig.nickname_candidates = roleConfig.nickname_candidates;
   }
+  bodyConfig.enabled = true;
   if (roleConfig.model) {
     bodyConfig.model = roleConfig.model;
   }

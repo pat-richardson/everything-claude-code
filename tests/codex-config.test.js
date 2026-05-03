@@ -138,6 +138,24 @@ if (
   passed++;
 else failed++;
 
+if (
+  test('Codex role configs are explicitly enabled', () => {
+    const roleFiles = fs.readdirSync(codexAgentsDir).filter(file => file.endsWith('.toml'));
+    assert.ok(roleFiles.length > 0, 'Expected role config files under `.codex/agents`');
+
+    for (const roleFile of roleFiles) {
+      const rolePath = path.join(codexAgentsDir, roleFile);
+      const roleConfig = fs.readFileSync(rolePath, 'utf8');
+      assert.ok(
+        /^enabled\s*=\s*true$/m.test(roleConfig),
+        `Expected role config to include top-level enabled = true: ${roleFile}`,
+      );
+    }
+  })
+)
+  passed++;
+else failed++;
+
 console.log(`\nPassed: ${passed}`);
 console.log(`Failed: ${failed}`);
 process.exit(failed > 0 ? 1 : 0);
