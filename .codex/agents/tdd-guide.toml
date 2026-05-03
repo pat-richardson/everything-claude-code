@@ -4,7 +4,6 @@
 
 name = "tdd_guide"
 description = "Test-Driven Development specialist enforcing write-tests-first methodology. Use PROACTIVELY when writing new features, fixing bugs, or refactoring code. Ensures 80%+ test coverage."
-enabled = true
 model = "gpt-5.4"
 model_reasoning_effort = "medium"
 sandbox_mode = "workspace-write"
@@ -96,3 +95,4 @@ Release-critical paths should target pass^3 stability before merge."""
 
 [[skills.config]]
 path = ".agents/skills/tdd-workflow/SKILL.md"
+enabled = true
