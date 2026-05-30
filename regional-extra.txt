@@ -1,5 +1,8 @@
 # Extra regional paths that don't follow the -SUFFIX convention
 docs/tr
+docs/ja-JP
+docs/zh
+docs/zh-CN
 rules/zh
 .github
 .trae
