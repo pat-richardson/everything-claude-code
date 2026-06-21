@@ -99,14 +99,12 @@ function runTests() {
       'Should include lang:c');
     assert.ok(components.some(component => component.id === 'capability:security'),
       'Should include capability:security');
-<<<<<<< HEAD
     assert.ok(components.some(component => component.id === 'capability:machine-learning'),
       'Should include capability:machine-learning');
     assert.ok(components.some(component => component.id === 'agent:mle-reviewer'),
       'Should include agent:mle-reviewer');
     assert.ok(components.some(component => component.id === 'skill:mle-workflow'),
       'Should include skill:mle-workflow');
-=======
     assert.ok(components.some(component => component.id === 'capability:frontend-quality'),
       'Should include capability:frontend-quality');
   })) passed++; else failed++;
@@ -133,7 +131,6 @@ function runTests() {
       )),
       'Should install accessibility skill into Cursor skills'
     );
->>>>>>> b4b2d811 (feat(cursor): add frontend quality install profile)
   })) passed++; else failed++;
 
   if (test('gets install component details and validates component IDs', () => {

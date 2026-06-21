@@ -26,7 +26,6 @@ An advanced learning system that turns your Claude Code sessions into reusable k
 
 ## What's New in v2.1
 
-<<<<<<< HEAD
 | Feature | v2.0 | v2.1 |
 |---------|------|------|
 | Storage | Global (`~/.claude/homunculus/`) | Project-scoped (`${XDG_DATA_HOME:-~/.local/share}/ecc-homunculus/projects/<hash>/`) |
@@ -35,16 +34,6 @@ An advanced learning system that turns your Claude Code sessions into reusable k
 | Promotion | N/A | Project → global when seen in 2+ projects |
 | Commands | 4 (status/evolve/export/import) | 6 (+promote/projects) |
 | Cross-project | Contamination risk | Isolated by default |
-=======
-| Feature       | v2.0                            | v2.1                                      |
-| ------------- | ------------------------------- | ----------------------------------------- |
-| Storage       | Global (~/.claude/homunculus/)  | Project-scoped (projects/<hash>/)         |
-| Scope         | All instincts apply everywhere  | Project-scoped + global                   |
-| Detection     | None                            | git remote URL / repo path                |
-| Promotion     | N/A                             | Project → global when seen in 2+ projects |
-| Commands      | 4 (status/evolve/export/import) | 6 (+promote/projects)                     |
-| Cross-project | Contamination risk              | Isolated by default                       |
->>>>>>> 20deaf09 (chore: remove deprecated files and update regional/skill content)
 
 ## What's New in v2 (vs v1)
 
@@ -362,12 +351,7 @@ Hooks fire **100% of the time**, deterministically. This means:
 ## Backward Compatibility
 
 v2.1 is fully compatible with v2.0 and v1:
-<<<<<<< HEAD
 - Existing global instincts can be migrated from `~/.claude/homunculus/instincts/` with `scripts/migrate-homunculus.sh`
-=======
-
-- Existing global instincts in `~/.claude/homunculus/instincts/` still work as global instincts
->>>>>>> 20deaf09 (chore: remove deprecated files and update regional/skill content)
 - Existing `~/.claude/skills/learned/` skills from v1 still work
 - Stop hook still runs (but now also feeds into v2)
 - Gradual migration: run both in parallel
