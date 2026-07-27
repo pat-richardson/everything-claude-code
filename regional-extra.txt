@@ -10,3 +10,4 @@ rules/zh
 install.ps1
 SPONSORING.md
 SPONSORS.md
+README.zh-CN.md
